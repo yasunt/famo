@@ -1,0 +1,26 @@
+{% extends 'commons/base.html' %}
+{% load static %}
+{% load portfolio_extras %}
+
+{% block content %}
+  {% block preface %}
+  <p>{{ user.username }}</p>
+  <p>Last Questions Posted.</p>
+  {% for question in user|get_questions %}
+    <a href="{% url 'counsel:question' question.id %}"<p>{{ question.title }}</p></a>
+  {% endfor %}
+  <a href="{% url 'logout' %}" class="button"><p>Logout</p></a>
+  {% endblock preface %}
+  {% block post %}
+  <form method="post" action="{% url 'counsel:post' %}">
+    {% csrf_token %}
+	  <div class="row uniform 50%">
+		  <div class="6u 12u$(xsmall)"><input type="text" name="title" id="title" placeholder="Title" /></div>
+		  <div class="12u$"><textarea name="content" id="content" placeholder="Content" rows="4"></textarea></div>
+		</div>
+    <ul class="actions">
+  	  <li><input type="submit" value="Post a Topic" /></li>
+  	</ul>
+	</form>
+  {% endblock post %}
+{% endblock content %}

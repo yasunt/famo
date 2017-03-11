@@ -1,0 +1,33 @@
+{% extends 'commons/base.html' %}
+{% load counsel_extras %}
+
+{% block content %}
+  <p>
+    <h1><strong>{{ question.title }}</strong></h1>
+    {% ifequal user question.user %}
+    <a href="{% url 'counsel:delete' question.id %}" class="button">Delete a Question</a>
+    {% endifequal %}
+  </p>
+  <p>{{ question.content }}</p>
+  <p>Answers</p>
+  {% if question|get_answers %}
+    {% for answer in question|get_answers %}
+    <p><strong>{{ answer.title }}</strong></p>
+    <p>{{ answer.content }}</p>
+    {% endfor %}
+  {% else %}
+  <p>No answers have been posted.</p>
+  {% endif %}
+  {% block post %}
+  <form method="post" action="{% url 'counsel:post' %}">
+    {% csrf_token %}
+	  <div class="row uniform 50%">
+		  <div class="6u 12u$(xsmall)"><input type="text" name="title" id="title" placeholder="Title" /></div>
+		  <div class="12u$"><textarea name="content" id="content" placeholder="Content" rows="4"></textarea></div>
+		</div>
+    <ul class="actions">
+  	  <li><input type="submit" value="Post a Answer" /></li>
+  	</ul>
+	</form>
+  {% endblock post %}
+{% endblock content %}

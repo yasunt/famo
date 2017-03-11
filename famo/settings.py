@@ -31,6 +31,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'commons.apps.CommonsConfig',
+    'accounts.apps.AccountsConfig',
+    'portfolio.apps.PortfolioConfig',
+    'counsel.apps.CounselConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -48,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'famo.urls'
 
@@ -83,7 +88,6 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -99,6 +103,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'accounts.FamoUser'
+
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/portfolio'
+LOGOUT_REDIRECT_URL = '/login'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
