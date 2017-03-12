@@ -30,7 +30,7 @@ if gethostname() == 'yasu-Vostro-3458':
     DEBUG = True
     ALLOWED_HOSTS = []
 else:
-    DEBUG = False
+    DEBUG = True
     ALLOWED_HOSTS = ['yasunt.pythonanywhere.com']
 
 
