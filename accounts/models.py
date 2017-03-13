@@ -10,6 +10,7 @@ class FamoUser(AbstractUser):
     sex = models.IntegerField(null=True)    # add a limit_choices_to
     job = models.IntegerField(null=True)    # add a limit_choices_to
     introduction = models.TextField(default='')
+    follows = models.ManyToManyField('self', symmetrical=None)
 
 class Person(models.Model):
     birth_date = models.DateField(null=True)

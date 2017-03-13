@@ -7,4 +7,4 @@ def index(request):
     return render(request, 'portfolio/index.html', context)
 
 def test(request):
-    return render(request, 'test/index.html')
+    return render(request, 'test/question_sample.html')

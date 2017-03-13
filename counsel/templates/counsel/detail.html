@@ -1,0 +1,10 @@
+{% extends 'commons/base.html' %}
+{% load counsel_extras %}
+
+{% block content %}
+  {% get_question_node question %}
+  {% for answer in answers %}
+    {% get_question_node answer %}
+  {% endfor %}
+  {% post_form question.id %}
+{% endblock content %}
