@@ -34,11 +34,13 @@ def post_topic(request, type_):
     return render(request, 'counsel/result.html', context)
 
 def check_a_post(request):
+    # check time before last post.
+    # validate a post. (ex. length, words, ...)
     return True
 
 @login_required
 def post_answer(request, question_id):
-    context = {}
+    context = {'question': Question.objects.get(id=question_id)}
     if check_a_post(request):
         answer = Answer(title=request.POST['title'], content=request.POST['content'], question=Question.objects.get(id=question_id), user=request.user)
         answer.save()

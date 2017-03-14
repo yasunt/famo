@@ -37,11 +37,5 @@
     height: 0px;
     border-style: solid;
     border-width: 10px 10px 10px 0;
-    border-color: transparent #D9F0FF transparent transparent;
-}
-.reply {
-    background-color: #e2ebdf;
-}
-.reply:after {
-    border-color: transparent #BCF5A9 transparent transparent;
+    border-color: transparent #e2ebdf transparent transparent;
 }

@@ -2,9 +2,11 @@
 {% load counsel_extras %}
 
 {% block content %}
+*TOPIC - {{ question.title }}*
   {% get_question_node question %}
   {% for answer in answers %}
     {% get_question_node answer %}
+    *from {{ answer.user.username }}
   {% endfor %}
   {% post_form question.id %}
 {% endblock content %}

@@ -1,0 +1,30 @@
+{% extends 'commons/base.html' %}
+{% load static %}
+
+{% block extend_head %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="{% static 'commons/assets/js/csrf.js' %}"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#follow').click(function(){
+      $.ajax({
+        'url': "{% url 'portfolio:follow' %}",
+        'type': 'POST',
+        'data': {
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          'username': '{{ user.username }}',
+        },
+        'dataType': 'json',
+        'success': function(response) {
+          $('#follow').text(response.state);
+        },
+      });
+    });
+  });
+</script>
+{% endblock extend_head %}
+
+{% block content %}
+  <p>*{{ user.username }}</p>
+  <a class="button" id="follow"><p>{% if following %}フォロー中{% else %}フォローする{% endif %}</p></a>
+{% endblock content %}
