@@ -9,6 +9,7 @@ class Post(models.Model):
     content = models.CharField(max_length=500)
     user = models.ForeignKey(FamoUser)
     hits = models.IntegerField(default=0)
+    date = models.DateTimeField(auto_now=True)
     class Meta:
         abstract = True
 

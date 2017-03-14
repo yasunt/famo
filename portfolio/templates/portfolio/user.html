@@ -27,20 +27,24 @@
 
 {% block username %}{{ user.username }}{% endblock username %}
 {% block description %}
-  <br><a class="button" id="follow">
+  <br>
+  <a class="button fit" id="follow">
     {% if following %}フォロー中{% else %}フォローする{% endif %}
   </a>
 {% endblock description %}
 {% block content %}
+<section id="question">
   <h1>Latest Questions</h1>
   {% for question in user|latest_questions:10 %}
     <strong><a href="{% url 'counsel:detail' question.id %}">{{ question.title }}</a></strong><br>
     {% if forloop.counter > 9 %}
     {% endif %}
   {% endfor %}
-  <br>
+</section>
+<section id="answer">
   <h1>Latest Answers</h1>
   {% for answer in user|latest_answers:10 %}
     <strong><a href="">{{ answer.title }}</a></strong><br>
   {% endfor %}
+</section>
 {% endblock content %}

@@ -38,6 +38,7 @@ else:
 
 INSTALLED_APPS = [
     'commons.apps.CommonsConfig',
+    'top.apps.TopConfig',
     'accounts.apps.AccountsConfig',
     'portfolio.apps.PortfolioConfig',
     'counsel.apps.CounselConfig',

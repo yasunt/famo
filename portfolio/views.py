@@ -35,4 +35,4 @@ def follow(request):
         pass
 
 def test(request):
-    return render(request, 'test/question_sample.html')
+    return render(request, 'test/index.html')

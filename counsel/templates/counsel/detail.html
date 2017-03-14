@@ -3,10 +3,15 @@
 
 {% block content %}
 *TOPIC - {{ question.title }}*
+<section id="question">
   {% get_question_node question %}
+</section>
   {% for answer in answers %}
+<section id="answer{{ forloop.counter }}">
     {% get_question_node answer %}
-    *from {{ answer.user.username }}
+</section>
   {% endfor %}
+<section id="post_form">
   {% post_form question.id %}
+</section>
 {% endblock content %}
