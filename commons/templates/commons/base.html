@@ -20,17 +20,8 @@
 		{% endblock head %}
 	</head>
 	<body id="top">
-
-		<!-- Header -->
-			<header id="header">
-				<div class="inner">
-					<a href="{% static 'commons/#' %}" class="image avatar"><img src="{% static 'commons/images/avatar.jpg' %}" alt="" /></a>
-					<h1><strong>I am Strata</strong>, a super simple<br />
-					responsive site template freebie<br />
-					crafted by <a href="{% static 'commons/http://html5up.net' %}">HTML5 UP</a>.</h1>
-				</div>
-			</header>
-
+		{% block profile %}
+		{% endblock profile %}
 		<!-- Main -->
 			<div id="main">
 			{% block content %}

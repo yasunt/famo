@@ -1,5 +1,6 @@
-{% extends 'commons/base.html' %}
+{% extends 'portfolio/portfolio_base.html' %}
 {% load static %}
+{% load portfolio_extras %}
 
 {% block extend_head %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -24,7 +25,22 @@
 </script>
 {% endblock extend_head %}
 
+{% block username %}{{ user.username }}{% endblock username %}
+{% block description %}
+  <br><a class="button" id="follow">
+    {% if following %}フォロー中{% else %}フォローする{% endif %}
+  </a>
+{% endblock description %}
 {% block content %}
-  <p>*{{ user.username }}</p>
-  <a class="button" id="follow"><p>{% if following %}フォロー中{% else %}フォローする{% endif %}</p></a>
+  <h1>Latest Questions</h1>
+  {% for question in user|latest_questions:10 %}
+    <strong><a href="{% url 'counsel:detail' question.id %}">{{ question.title }}</a></strong><br>
+    {% if forloop.counter > 9 %}
+    {% endif %}
+  {% endfor %}
+  <br>
+  <h1>Latest Answers</h1>
+  {% for answer in user|latest_answers:10 %}
+    <strong><a href="">{{ answer.title }}</a></strong><br>
+  {% endfor %}
 {% endblock content %}

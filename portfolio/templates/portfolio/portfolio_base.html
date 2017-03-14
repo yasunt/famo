@@ -1,0 +1,16 @@
+{% extends 'commons/base.html' %}
+{% load static %}
+
+<!-- Header -->
+{% block profile %}
+  <header id="header">
+    <div class="inner">
+      <a href="{% static 'commons/#' %}" class="image avatar"><img src="{% static 'commons/images/avatar.jpg' %}" alt="" /></a>
+      <h1><strong>{% block username %}{% endblock username %}</strong>
+        {% block description %}{% endblock description %}
+      </h1>
+    </div>
+  </header>
+{% endblock profile %}
+{% block content %}
+{% endblock content %}
