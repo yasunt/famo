@@ -1,6 +1,8 @@
 {% extends 'commons/base.html' %}
 {% load static %}
 {% load portfolio_extras %}
+{% load counsel_extras %}
+
 
 {% block content %}
   {% block preface %}
@@ -12,9 +14,19 @@
   <a href="{% url 'logout' %}" class="button"><p>Logout</p></a>
   {% endblock preface %}
   {% block post %}
-  <form method="post" action="{% url 'counsel:post' %}">
+  <form method="post" action="{% url 'counsel:post_topic' %}">
     {% csrf_token %}
 	  <div class="row uniform 50%">
+      <div class="12u$">
+			  <div class="select-wrapper">
+					<select name="category" id="category">
+            <option value="">- Category -</option>
+						{% for category in 10|get_categories %}
+						<option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
+					</select>
+				</div>
+			</div>
 		  <div class="6u 12u$(xsmall)"><input type="text" name="title" id="title" placeholder="Title" /></div>
 		  <div class="12u$"><textarea name="content" id="content" placeholder="Content" rows="4"></textarea></div>
 		</div>

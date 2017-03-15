@@ -8,7 +8,7 @@
 <html>
 	<head>
 		{% block head %}
-		<title>Strata by HTML5 UP</title>
+		<title>{% block title %}Strata by HTML5 UP{% endblock title %}</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="{% static 'commons/assets/js/ie/html5shiv.js' %}"></script><![endif]-->
@@ -20,6 +20,11 @@
 		{% endblock head %}
 	</head>
 	<body id="top">
+		{% block banner %}
+		<section id="banner">
+			<center><h1><a href="{% url 'top:index' %}">Famo.</a></h1></center>
+		</section>
+		{% endblock banner %}
 		{% block profile %}
 		{% endblock profile %}
 		<!-- Main -->

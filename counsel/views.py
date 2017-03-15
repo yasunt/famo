@@ -1,12 +1,19 @@
-from django.shortcuts import render
+import json
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from counsel.scripts import validator
 from counsel.models import Question, Answer, Category
 
 @login_required
-def post_topic(request, type_):
+def post_topic(request):
+    return post_content(request, 'question')
+
+def post_content(request, type_):
     title = request.POST['title']
     content = request.POST['content']
+    print(title, content)
+    print(request.POST['category'])
     try:
         category = Category.objects.get(id=request.POST['category'])
     except:
@@ -49,6 +56,22 @@ def post_answer(request, question_id):
     return render(request, 'counsel/detail.html', context)
 
 @login_required
+def evaluate(request):
+    print(type(request.POST['answer_id']))
+    if request.method == 'POST':
+        if request.user.id != request.POST['user_id']:
+            # raise HTTPERROR
+            pass
+        answer = get_object_or_404(Answer, id=request.POST['answer_id'])
+        print(answer)
+        if not answer.good_rators.filter(id=request.user.id).exists():
+            answer.good_rators.add(request.user)
+        response = json.dumps({'good_rators_count': answer.good_rators.count()})
+        return HttpResponse(response)
+    else:
+        pass
+
+@login_required
 def post(request):
     context = {'user': request.user, 'categories': Category.objects.all()}
     return render(request, 'counsel/post.html', context)
@@ -65,5 +88,6 @@ def detail(request, question_id):
     question = Question.objects.get(id=question_id)
     context = {
                 'question': question,
+                'user': request.user,
                 'answers': question.answer_set.all()}
     return render(request, 'counsel/detail.html', context)

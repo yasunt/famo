@@ -1,14 +1,41 @@
 {% extends 'commons/base.html' %}
+{% load static %}
 {% load counsel_extras %}
+
+{% block extend_head %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="{% static 'commons/assets/js/csrf.js' %}"></script>
+
+<script>
+  $(document).ready(function() {
+    $("[id^='good_button']").click(function() {
+        var target = this;
+        $.ajax({
+          'url': "{% url 'counsel:evaluate' %}",
+          'type': 'POST',
+          'data': {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            'user_id': '{{ user.id }}',
+            'answer_id': target.id.replace('good_button', ''),
+          },
+          'dataType': 'json',
+          'success': function(response) {
+            $(target).text('Good ' + '+' + response.good_rators_count);
+          }
+        });
+      });
+    });
+</script>
+{% endblock extend_head %}
 
 {% block content %}
 *TOPIC - {{ question.title }}*
 <section id="question">
-  {% get_question_node question %}
+  {% get_question_node question user %}
 </section>
   {% for answer in answers %}
 <section id="answer{{ forloop.counter }}">
-    {% get_question_node answer %}
+    {% get_answer_node answer user %}
 </section>
   {% endfor %}
 <section id="post_form">

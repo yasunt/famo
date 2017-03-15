@@ -5,15 +5,23 @@ register = template.Library()
 
 @register.filter
 def get_answers(question):
-    return Answer.objects.filter(question=question).order_by('-value')[:10]
+    return Answer.objects.filter(question=question).order_by('date')[:10]
 
 @register.filter
-def get_categories():
-    return Category.objects.all()
+def get_categories(num=20):
+    return Category.objects.all()[:num]
+
+@register.filter
+def count_good_rators(answer):
+    return answer.good_rators.count()
 
 @register.inclusion_tag('counsel/node.html')
-def get_question_node(question_obj):
-    return {'question': question_obj}
+def get_question_node(question_obj, user):
+    return {'question': question_obj, 'user': user}
+
+@register.inclusion_tag('counsel/node.html')
+def get_answer_node(answer_obj, user):
+    return {'answer': answer_obj, 'user': user}
 
 @register.inclusion_tag('counsel/post_answer_node.html')
 def post_form(question_id):
