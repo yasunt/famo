@@ -20,12 +20,15 @@
 		{% endblock head %}
 	</head>
 	<body id="top">
-		{% block banner %}
-		<section id="banner">
-			<center><h1><a href="{% url 'top:index' %}">Famo.</a></h1></center>
-		</section>
-		{% endblock banner %}
+
 		{% block profile %}
+			{% block header %}
+			<header id="header">
+				<div class="inner">
+				<h1><strong><a href="{% url 'top:index' %}">Famo.</a></strong></h1>
+				</div>
+			</header>
+			{% endblock header %}
 		{% endblock profile %}
 		<!-- Main -->
 			<div id="main">
@@ -443,6 +446,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 					</section>
 			{% endblock content %}
 
+
 			</div>
 
 		<!-- Footer -->
@@ -467,6 +471,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<script src="{% static 'commons/assets/js/util.js' %}"></script>
 			<!--[if lte IE 8]><script src="{% static 'commons/assets/js/ie/respond.min.js' %}"></script><![endif]-->
 			<script src="{% static 'commons/assets/js/main.js' %}"></script>
-
+			{% block bottom_scripts %}
+			{% endblock bottom_scripts %}
 	</body>
 </html>

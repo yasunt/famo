@@ -24,8 +24,13 @@ def get_answer_node(answer_obj, user):
     return {'answer': answer_obj, 'user': user}
 
 @register.inclusion_tag('counsel/post_answer_node.html')
-def post_form(question_id):
+def post_answer_form(question_id):
     return {'question_id': question_id}
+
+@register.inclusion_tag('counsel/post_question_node.html')
+def post_question_form():
+    return {}
+
 """
 @register.simple_tag
 def get_question_node(question_obj, context):

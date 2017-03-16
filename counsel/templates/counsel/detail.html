@@ -3,11 +3,19 @@
 {% load counsel_extras %}
 
 {% block extend_head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="{% static 'commons/assets/js/csrf.js' %}"></script>
 
+
+
 <script>
   $(document).ready(function() {
+    $("#demo01").animatedModal({
+      color: 'rgba(0,0,0,0.9)',
+      animatedIn: 'fadeIn',
+      animatedOut: 'fadeOut'
+    });
     $("[id^='good_button']").click(function() {
         var target = this;
         $.ajax({
@@ -29,6 +37,8 @@
 {% endblock extend_head %}
 
 {% block content %}
+
+
 *TOPIC - {{ question.title }}*
 <section id="question">
   {% get_question_node question user %}
@@ -39,6 +49,25 @@
 </section>
   {% endfor %}
 <section id="post_form">
-  {% post_form question.id %}
+  {% post_answer_form question.id %}
 </section>
+
+<a href="#animatedModal" class="button special small" id="demo01">delete</a>
+<!--DEMO01-->
+<div id="animatedModal">
+    <!--THIS IS IMPORTANT! to close the modal, the class name has to match the name given on the ID  class="close-animatedModal" -->
+    <div class="close-animatedModal">
+        ✗Close
+    </div>
+
+    <div class="modal-content">
+      {% post_answer_form '2' %}
+    </div>
+</div>
+
 {% endblock content %}
+
+{% block bottom_scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="{% static 'commons/assets/js/animatedModal.min.js' %}"></script>
+{% endblock bottom_scripts %}

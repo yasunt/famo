@@ -1,59 +1,60 @@
 import json
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
 from counsel.scripts import validator
 from counsel.models import Question, Answer, Category
 
 @login_required
-def post_topic(request):
+def post_question(request):
     return post_content(request, 'question')
 
-def post_content(request, type_):
+@login_required
+def post_answer(request, question_id):
+    return post_content(request, 'answer', question_id)
+
+def post_content(request, content_type, question_id=None):
+    if not request.method == 'POST':
+        raise Http404
     title = request.POST['title']
     content = request.POST['content']
-    print(title, content)
-    print(request.POST['category'])
     try:
-        category = Category.objects.get(id=request.POST['category'])
+        anonymous = True if request.POST['anonymous'] == 'true' else False
     except:
-        return render(request, 'counsel/post.html', context)
-    if title and content:
-        if validator.is_valid(title) and validator.is_valid(content):
-            if type_ == 'question':
-                try:
-                    question = Question(title=title, content=content, user=request.user)
-                    question.save()
-                    question.category_set.add(category)
-                    context = {'message': 'Posted.'}
-                except:
-                    context = {'message': 'Inappropriate Sentence.'}
-            elif type_ == 'answer':
-                try:
-                    answer = Answer(title=title, content=content, user=request.user)
-                    answer.save()
-                except:
-                    pass
-        else:
-            context = {'message': 'Inappropriate Sentence.'}
+        anonymous = False
+    print(anonymous)
+    if not (validator.is_valid(title) and validator.is_valid(content)):
+        context = {'message': 'Inappropriate Sentence.'}
+        raise Http404
     else:
-        context = {'message': 'Content is insufficient.'}
-    return render(request, 'counsel/result.html', context)
+        pass
+    if content_type == 'question':
+        try:
+            category = get_object_or_404(Category, id=request.POST['category'])
+        except:
+            raise Http404   # invalid category.
+        try:
+            question = Question(title=title, content=content, user=request.user, anonymous=anonymous)
+            question.save()
+            question.category_set.add(category)
+            return render(request, 'counsel/detail.html', {'question': question})
+        except:
+            raise HTTP404   # server error.
+    elif content_type == 'answer':
+        question = get_object_or_404(Question, id=question_id)
+        try:
+            answer = Answer(title=title, content=content, question=question, user=request.user, anonymous=anonymous)
+            answer.save()
+            return render(request, 'counsel/detail.html', {'question': question})
+        except:
+            raise Http404   # server error.
+    else:
+        raise Http404
 
 def check_a_post(request):
     # check time before last post.
     # validate a post. (ex. length, words, ...)
     return True
-
-@login_required
-def post_answer(request, question_id):
-    context = {'question': Question.objects.get(id=question_id)}
-    if check_a_post(request):
-        answer = Answer(title=request.POST['title'], content=request.POST['content'], question=Question.objects.get(id=question_id), user=request.user)
-        answer.save()
-    else:
-        pass
-    return render(request, 'counsel/detail.html', context)
 
 @login_required
 def evaluate(request):
