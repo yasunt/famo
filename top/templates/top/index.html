@@ -1,13 +1,28 @@
 {% extends 'commons/base.html' %}
 {% load commons_extras %}
+{% load static %}
 
 {% block content %}
-  <p><a href="{% url 'portfolio:index' %}">Mypage</a></p>
-  <section id="popular_questions">
-    <p>Popular Topics</p>
-    {% for question in 5|get_popular_questions %}
-      <a href="{% url 'counsel:detail' question.id %}">{{ question.title }}</a>
-    {% endfor %}
-  </section>
   <section id="">
+    <h2>Popular Articles</h2>
+    <span class="image fit"><a href="#"><img src="{% static 'commons/images/pic01.jpg' %}"></a></span>
+    <p><strong><a href="#">Article Title Space</a></strong></p>
+  </section>
+  <section id="popular_questions">
+    <h2>Popular Topics</h2>
+    <div class="box alt">
+      <div class="row 50% uniform">
+
+      {% for question in 5|get_popular_questions %}
+      <div class="4u">
+        <span class="image fit">
+          <img src="{% static 'commons/images/pic06.jpg' %}">
+          <a href="{% url 'counsel:detail' question.id %}">{{ question.title }}</a>
+        </span>
+      </div>
+      {% endfor %}
+      </div>
+    </div>
+
+  </section>
 {% endblock content %}

@@ -1,0 +1,67 @@
+{% extends 'commons/base.html' %}
+{% load static %}
+{% load articles_extras %}
+
+{% block extend_head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="{% static 'commons/assets/js/csrf.js' %}"></script>
+<script>
+  $(document).ready(function() {
+    $('#submit').click(function() {
+      $.ajax({
+        'url': "{% url 'articles:comment' %}",
+        'type': 'POST',
+        'data': {
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          'article_id': '{{ article.id }}',
+          'content': $("#content").val(),
+        },
+        'dataType': 'json',
+        'success': function(response) {
+          alert(response.state);
+        }
+      });
+    });
+  });
+</script>
+{% endblock extend_head %}
+
+{% block content %}
+<section>
+  <h4><a href="{{ article.url }}">{{ article.title }}</a></h4>
+  <div class="row">
+    <p><span class="image left"><a href="{{ article.url }}"><img src="{{ article.img_url }}" alt="" /></a><br>記事元: xxx.com</span>
+      {{ article.preface }}...
+    </p>
+  </div>
+</section>
+<a href="{{ article.url }}" class="button fit">続きを読む</a>
+
+{% for comment in comments %}
+<section>
+  {% comment_node comment %}
+</section>
+{% endfor %}
+
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn fit" data-toggle="modal" data-target="#myModal">コメントする</button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          {% comment_form %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn fit" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+{% endblock content %}

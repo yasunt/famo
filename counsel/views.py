@@ -22,7 +22,6 @@ def post_content(request, content_type, question_id=None):
         anonymous = True if request.POST['anonymous'] == 'true' else False
     except:
         anonymous = False
-    print(anonymous)
     if not (validator.is_valid(title) and validator.is_valid(content)):
         context = {'message': 'Inappropriate Sentence.'}
         raise Http404

@@ -1,0 +1,7 @@
+<form method="post" action="{% url 'articles:comment' %}" id="comment">
+  {% csrf_token %}
+  <div class="row uniform 50%">
+    <div class="12u$"><textarea form="comment" id="content" placeholder="コメントを入力してください。" rows="4"></textarea></div>
+    <p><a class="button fit" id="submit">コメントする</a></p>
+  </div>
+</form>

@@ -13,8 +13,8 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="{% static 'commons/assets/css/main.css' %}" />
-		<script>
-		</script>
+		{% block extend_head %}
+		{% endblock extend_head %}
 	</head>
 	<body>
 
@@ -26,7 +26,7 @@
 						<div class="inner">
 							<!-- Header -->
 								<header id="header">
-									<a href="index.html" class="logo"><strong>Editorial</strong> by HTML5 UP</a>
+									<a href="{% url 'top:index' %}" class="logo"><strong><h1>Famo</h1></strong></a>
 									<ul class="icons">
 										<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
 										<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
@@ -37,7 +37,7 @@
 								</header>
 
 
-							<!-- Banner -->
+							<!-- Banner
 								<section id="banner">
 									<div class="content">
 										<header>
@@ -48,6 +48,7 @@
 										</header>
 									</div>
 								</section>
+							-->
 
 							<!-- Section -->
                 {% block content %}
@@ -75,13 +76,14 @@
 									</header>
 									<ul>
 										<li><a href="">トップページ</a></li>
-										<li><a href="">人気作品</a></li>
-										<li><a href="">人気記事</a></li>
+										<li><a href="">人気トピック</a></li>
+										<li><a href="">アンケート</a></li>
 										<li>
-											<span class="opener">ジャンル別で探す</span>
+											<span class="opener">カテゴリ</span>
 											<ul>
-												<li><a href="">アクション</a></li>
-												<li><a href="">恋愛</a></li>
+												{% for category in 10|get_categories %}
+												<li><a href="{% url 'category:topics' %}">{{ category.name }}</a></li>
+												{% endfor %}
 											</ul>
 										</li>
 									</ul>

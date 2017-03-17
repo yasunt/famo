@@ -20,7 +20,7 @@ def get_latest_questions(num, category=False):
 def get_popular_questions(num, category=False):
     if not category:
         try:
-            print('test: {0}'.format(Question.objects.order_by('-hits')[:num]))
+            print(Question.objects.order_by('-hits')[:num])
             return Question.objects.order_by('-hits')[:num]
         except:
             return None

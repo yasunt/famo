@@ -39,6 +39,8 @@ else:
 INSTALLED_APPS = [
     'commons.apps.CommonsConfig',
     'top.apps.TopConfig',
+    'category.apps.CategoryConfig',
+    'articles.apps.ArticlesConfig',
     'accounts.apps.AccountsConfig',
     'portfolio.apps.PortfolioConfig',
     'counsel.apps.CounselConfig',
