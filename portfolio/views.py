@@ -10,7 +10,6 @@ def index(request):
     context = {'user': request.user}
     return render(request, 'portfolio/index.html', context)
 
-@login_required
 def user(request, username):
     user = get_object_or_404(FamoUser, username=username)
     context = {'user': user}

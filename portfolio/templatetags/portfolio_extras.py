@@ -1,8 +1,8 @@
 from django import template
+from datetime import datetime
+from counsel.models import Answer, Question
 
 register = template.Library()
-
-from counsel.models import Answer, Question
 
 
 @register.filter
@@ -20,3 +20,11 @@ def latest_answers(user, num):
 @register.filter
 def latest_questions(user, num):
     return latest_user_objs(Question, user, num)
+
+@register.filter
+def count_new_answers(question):
+    new_answers = question.answer_set.filter(updated_date__gte=question.last_accessed_date)
+    if not new_answers:
+        return 0
+    else:
+        return answers.count()

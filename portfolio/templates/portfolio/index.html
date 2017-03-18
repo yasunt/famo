@@ -3,15 +3,52 @@
 {% load portfolio_extras %}
 {% load counsel_extras %}
 
+{% block extend_head %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="{% static 'commons/assets/js/csrf.js' %}"></script>
+<script>
+  $(document).ready(function() {
+    $('#submit').click(function() {
+      $.ajax({
+        'url': "{% url 'articles:comment' %}",
+        'type': 'POST',
+        'data': {
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          'article_id': '{{ article.id }}',
+          'content': $("#content").val(),
+        },
+        'dataType': 'json',
+        'success': function(response) {
+          $('#close').click();
+        }
+      });
+    });
+  });
+</script>
+{% endblock extend_head %}
+
 
 {% block content %}
-  {% block preface %}
-  <p>{{ user.username }}</p>
-  <p>Last Questions Posted.</p>
+<section id="profile">
+  <span class="image fit"><img src="{% static 'commons/images/pic07.jpg' %}"></span>
+  <strong>username: {{ user.username }}</strong>
+</section>
+
+<section id="questions">
+  <h2>最近の質問</h2>
   {% for question in user|get_questions %}
-    <a href="{% url 'counsel:question' question.id %}"<p>{{ question.title }}</p></a>
+  <section id="question{{ question.id }}">
+    <a href="{% url 'counsel:question' question.id %}"<h3>{{ question.title }}</h3></a>
+    <p>{{ question.content }}</p>
+    <p>(新着回答: {{ question|count_new_answers }}件)</p>
+  </section>
   {% endfor %}
-  <a href="{% url 'logout' %}" class="button"><p>Logout</p></a>
-  {% endblock preface %}
-  {% post_question_form %}
+  <a href="#" class="button">過去の質問</a>
+</section>
+<section id="logout">
+  <a href="{% url 'logout' %}" class="button"><p>ログアウトする</p></a>
+</section>
+  {% post_question_modal %}
 {% endblock content %}

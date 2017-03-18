@@ -5,7 +5,7 @@ register = template.Library()
 
 @register.filter
 def get_answers(question):
-    return Answer.objects.filter(question=question).order_by('date')[:10]
+    return Answer.objects.filter(question=question).order_by('updated_date')[:10]
 
 @register.filter
 def get_categories(num=20):
@@ -29,6 +29,10 @@ def post_answer_form(question_id):
 
 @register.inclusion_tag('counsel/post_question_node.html')
 def post_question_form():
+    return {}
+
+@register.inclusion_tag('counsel/post_question_modal.html')
+def post_question_modal():
     return {}
 
 """

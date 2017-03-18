@@ -1,0 +1,18 @@
+{% load counsel_extras %}
+
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn fit" data-toggle="modal" data-target="#CommentModal">コメントする</button>
+  <!-- Modal -->
+  <div class="modal fade" id="CommentModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          {% post_question_form %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn fit" data-dismiss="modal" id="close">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

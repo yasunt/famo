@@ -3,13 +3,15 @@
 {% load static %}
 
 {% block content %}
-  <section id="">
+  <section id="popular_article">
     <h2>注目記事</h2>
     <span class="image fit"><a href="#"><img src="{{ popular_article.img_url }}"></a></span>
     <p><a href="{% url 'articles:detail' popular_article.id %}"><h2>{{ popular_article.title }}</h2></a></p>
     <p>{{ popular_article.preface }}...</p>
+    <a href="{% url 'articles:detail' popular_article.id %}" class="button fit">記事の詳細</a>
   </section>
-  <a href="{% url 'articles:popular' %}" class="button fit">もっと記事を読む</a>
+  <a href="{% url 'articles:popular' %}" class="button fit">その他の記事を読む</a>
+
   <section id="popular_questions">
     <h2>注目のトピック</h2>
     <div class="box alt">
@@ -26,5 +28,10 @@
       </div>
     </div>
     <a href="{% url 'articles:popular' %}" class="button fit">もっとトピックを読む</a>
+  </section>
+
+  <section id="questionnaire">
+    <h2>現在行われているアンケート</h2>
+    <a href="#" class="button fit">その他のアンケートをみる</a>
   </section>
 {% endblock content %}

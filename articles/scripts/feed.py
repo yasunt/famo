@@ -2,6 +2,7 @@ import re
 from urllib import request, parse
 from bs4 import BeautifulSoup
 from readability import readability
+from articles.models import Article
 import time
 
 
@@ -53,6 +54,8 @@ class Croller(object):
         soup = self.get_soup()
         for title, link in self.yield_elements(soup):
             preface, img_url = self.extractor.digest(request.urlopen(''.join(['http://', link])).read(), 200)
+            if img_url:
+                img_url = ''.join([self.domain, img_url])
             yield title, link, preface, img_url
 
 class AsahiCroller(Croller):
@@ -87,4 +90,16 @@ def test():
         print(x)
         time.sleep(5)
 
-test()
+def run_dayily_schedule(crollers=[NikkeiDualCroller]):
+    for croller in crollers:
+        croller = croller()
+        for title, url, preface, img_url in croller.feed():
+            if Article.objects.filter(url=url).exists():
+                article = Article.objects.get(url=url)
+                article.img_url = img_url
+            else:
+                article = Article(title=title, url=url, preface=preface, img_url=img_url)
+            print(article)
+            article.save()
+            time.sleep(3)
+run_dayily_schedule()

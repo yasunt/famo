@@ -3,25 +3,25 @@
 <form method="post" action="{% url 'counsel:post_question' %}">
   {% csrf_token %}
   <div class="row uniform 50%">
-    <div class="6u 12u$(xsmall)"><input type="text" name="title" id="title" placeholder="Title" /></div>
+    <div class="6u 12u$(xsmall)"><input type="text" name="title" id="title" placeholder="タイトル" /></div>
     <div class="12u$">
       <div class="select-wrapper">
         <select name="category" id="category">
-          <option value="">- Category -</option>
+          <option value="">- カテゴリ -</option>
           {% for category in 10|get_categories %}
           <option value="{{ category.id }}">{{ category.name }}</option>
           {% endfor %}
         </select>
       </div>
     </div>
-    <div class="12u$"><textarea name="content" id="content" placeholder="Content" rows="4"></textarea></div>
+    <div class="12u$"><textarea name="content" id="content" placeholder="相談内容" rows="4"></textarea></div>
     <div class="col">
     <ul class="actions">
-      <li><input type="submit" value="Post a Topic" /></li>
+      <li><input type="submit" value="投稿する" /></li>
     </ul>
     <div class="6u$ 12u$(small)">
   		<input type="checkbox" id="demo-human" name="anonymous" value="true">
-  		<label for="demo-human">Anonymous</label>
+  		<label for="demo-human">匿名で投稿する</label>
   	</div>
   </div>
   </div>

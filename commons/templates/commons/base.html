@@ -65,10 +65,15 @@
 							<!-- Search -->
 								<section id="search" class="alt">
 									<form method="post" action="">{% csrf_token %}
-										<input type="text" name="query" id="query" placeholder="Search" />
+										<input type="text" name="query" id="query" placeholder="記事やトピックを検索" />
 									</form>
 								</section>
 
+								{% if not request.user.username %}
+								<section id="login">
+									<a href="{% url 'login' %}" class="button">ログイン</a>
+								</section>
+								{% endif %}
 							<!-- Menu -->
 								<nav id="menu">
 									<header class="major">
@@ -76,7 +81,9 @@
 									</header>
 									<ul>
 										<li><a href="">トップページ</a></li>
-										<li><a href="">人気トピック</a></li>
+										<li><a href="{% url 'portfolio:index' %}">マイページ</a></li>
+										<li><a href="{% url 'articles:popular' %}">人気の記事</a></li>
+										<li><a href="{% url 'counsel:popular' %}">人気トピック</a></li>
 										<li><a href="">アンケート</a></li>
 										<li>
 											<span class="opener">カテゴリ</span>
@@ -103,6 +110,10 @@
 									<ul class="actions">
 										<li><a href="" class="button">More</a></li>
 									</ul>
+								</section>
+
+								<section>
+									<a href="{% url 'logout' %}" class="button">ログアウト</a>
 								</section>
 
 							<!-- Footer -->

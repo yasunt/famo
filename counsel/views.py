@@ -89,7 +89,10 @@ def delete(request, question_id):
 
 def detail(request, question_id):
     question = get_object_or_404(Question, id=question_id)
-    question.hits += 1
+    if request.user != question.user:
+        question.hits += 1
+    else:
+        question.last_accessed_date = datetime.now()
     question.save()
     context = {
                 'question': question,

@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 from accounts.models import FamoUser
 
 
@@ -8,13 +9,14 @@ class Post(models.Model):
     title = models.CharField(max_length=50)
     content = models.CharField(max_length=500)
     user = models.ForeignKey(FamoUser)
-    date = models.DateTimeField(auto_now=True)
+    updated_date = models.DateTimeField(auto_now=True)
     anonymous = models.BooleanField(default=False)
     class Meta:
         abstract = True
 
 class Question(Post):
     hits = models.IntegerField(default=0)
+    last_accessed_date = models.DateTimeField(default=datetime.now())
 
 class Answer(Post):
     def get_good_points(self):

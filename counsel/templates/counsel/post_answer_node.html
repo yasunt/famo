@@ -1,15 +1,15 @@
 <form method="post" action="{% url 'counsel:post_answer' question_id %}">
   {% csrf_token %}
   <div class="row uniform 50%">
-    <div class="6u 12u$(xsmall)"><input type="text" name="title" id="title" placeholder="Title" /></div>
-    <div class="12u$"><textarea name="content" id="content" placeholder="Content" rows="4"></textarea></div>
+    <div class="6u 12u$(xsmall)"><input type="text" name="title" id="title" placeholder="タイトル" /></div>
+    <div class="12u$"><textarea name="content" id="content" placeholder="本文" rows="4"></textarea></div>
     <div class="col">
     <ul class="actions">
       <li><input type="submit" value="Post a Answer" /></li>
     </ul>
     <div class="6u$ 12u$(small)">
   		<input type="checkbox" id="demo-human" name="anonymous" value="true">
-  		<label for="demo-human">Anonymous</label>
+  		<label for="demo-human">匿名で投稿する</label>
   	</div>
   </div>
   </div>
