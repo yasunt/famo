@@ -1,2 +1,4 @@
-<p>{{ comment.content }}</p>
-<p><a href="{% url 'portfolio:user' comment.user %}">{{ comment.user.username }}</a></p>
+{% load static %}
+
+{{ comment.content }}
+<p>from <a href="{% url 'portfolio:user' comment.user %}">{{ comment.user.username }}</a></p>

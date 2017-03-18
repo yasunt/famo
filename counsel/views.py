@@ -13,6 +13,9 @@ def post_question(request):
 def post_answer(request, question_id):
     return post_content(request, 'answer', question_id)
 
+def popular(request):
+    return render(request, 'counsel/popular.html')
+
 def post_content(request, content_type, question_id=None):
     if not request.method == 'POST':
         raise Http404
@@ -85,7 +88,9 @@ def delete(request, question_id):
     return render(request, 'counsel/question.html')
 
 def detail(request, question_id):
-    question = Question.objects.get(id=question_id)
+    question = get_object_or_404(Question, id=question_id)
+    question.hits += 1
+    question.save()
     context = {
                 'question': question,
                 'user': request.user,

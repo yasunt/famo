@@ -20,7 +20,7 @@
         },
         'dataType': 'json',
         'success': function(response) {
-          alert(response.state);
+          $('#close').click();
         }
       });
     });
@@ -39,17 +39,19 @@
 </section>
 <a href="{{ article.url }}" class="button fit">続きを読む</a>
 
+
 {% for comment in comments %}
-<section>
+<section id="comment{{ comment.id }}">
   {% comment_node comment %}
 </section>
 {% endfor %}
 
+
   <!-- Trigger the modal with a button -->
-  <button type="button" class="btn fit" data-toggle="modal" data-target="#myModal">コメントする</button>
+  <button type="button" class="btn fit" data-toggle="modal" data-target="#CommentModal">コメントする</button>
 
   <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
+  <div class="modal fade" id="CommentModal" role="dialog">
     <div class="modal-dialog">
       <!-- Modal content-->
       <div class="modal-content">
@@ -57,7 +59,7 @@
           {% comment_form %}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn fit" data-dismiss="modal">Close</button>
+          <button type="button" class="btn fit" data-dismiss="modal" id="close">Close</button>
         </div>
       </div>
 

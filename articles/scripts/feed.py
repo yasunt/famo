@@ -27,17 +27,9 @@ class ReadabilityExtractor(object):
             img_url = ''
         return preface, img_url
 
-class APIController(object):
-    def __init__(self):
-        pass
-
-    def feed(self):
-        pass
-
-class AsahiCroller(object):
-    def __init__(self):
-        self.url = 'http://www.asahi.com/edu/list/kosodate.html'
-        self.root_url = 'www.asahi.com'
+class Croller(object):
+    def __init__(self, extractor=ReadabilityExtractor):
+        self.extractor = extractor()
 
     def get_target_html(self, url):
         try:
@@ -47,20 +39,52 @@ class AsahiCroller(object):
         content = res.read().decode('utf-8')
         return content
 
-    def yield_feed(self):
+    def get_soup(self):
         content = self.get_target_html(self.url)
-        if not content:
+        if content:
+            return BeautifulSoup(content, 'html.parser')
+        else:
             return None
-        soup = BeautifulSoup(content, 'html.parser')
+
+    def yield_elements(self, soup):
+        pass
+
+    def feed(self):
+        soup = self.get_soup()
+        for title, link in self.yield_elements(soup):
+            preface, img_url = self.extractor.digest(request.urlopen(''.join(['http://', link])).read(), 200)
+            yield title, link, preface, img_url
+
+class AsahiCroller(Croller):
+    def __init__(self):
+        super().__init__()
+        self.url = 'http://www.asahi.com/edu/list/kosodate.html'
+        self.domain = 'www.asahi.com'
+
+    def yield_elements(self, soup):
         article_division = soup.find('div', class_='Section SectionFst')
         for elem in article_division.find_all('a'):
-            yield elem.contents[0], ''.join([self.root_url, elem.get('href')])
+            print(elem)
+            yield elem.contents[0], ''.join([self.domain, elem.get('href')])
+
+class NikkeiDualCroller(Croller):
+    def __init__(self):
+        super().__init__()
+        self.url = 'http://dual.nikkei.co.jp/education/'
+        self.domain = 'dual.nikkei.co.jp'
+
+    def yield_elements(self, soup):
+        article_elements = soup.find_all('a', class_='entry_list')
+        for article in article_elements:
+            yield article.h1.contents[0], ''.join([self.domain, article.get('href')])
+
 
 def test():
-    ac = AsahiCroller()
-    re = ReadabilityExtractor()
-    for x in ac.yield_feed():
-        print(re.digest(request.urlopen(''.join(['http://', x[1]])).read(), 200))
+    croller = NikkeiDualCroller()
+    for i, x in enumerate(croller.feed()):
+        if i >= 10:
+            break
+        print(x)
         time.sleep(5)
 
 test()

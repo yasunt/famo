@@ -4062,3 +4062,12 @@
 			margin-top: 0;
 			padding-top: 0;
 		}
+
+		/* thumbnail */
+		.thumbnail img {
+			height: 30px;
+			width: 30px;
+			border-radius: 10px;
+			display: none;
+			background-position: center center;
+		}

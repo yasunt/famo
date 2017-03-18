@@ -4,12 +4,14 @@
 
 {% block content %}
   <section id="">
-    <h2>Popular Articles</h2>
-    <span class="image fit"><a href="#"><img src="{% static 'commons/images/pic01.jpg' %}"></a></span>
-    <p><strong><a href="#">Article Title Space</a></strong></p>
+    <h2>注目記事</h2>
+    <span class="image fit"><a href="#"><img src="{{ popular_article.img_url }}"></a></span>
+    <p><a href="{% url 'articles:detail' popular_article.id %}"><h2>{{ popular_article.title }}</h2></a></p>
+    <p>{{ popular_article.preface }}...</p>
   </section>
+  <a href="{% url 'articles:popular' %}" class="button fit">もっと記事を読む</a>
   <section id="popular_questions">
-    <h2>Popular Topics</h2>
+    <h2>注目のトピック</h2>
     <div class="box alt">
       <div class="row 50% uniform">
 
@@ -23,6 +25,6 @@
       {% endfor %}
       </div>
     </div>
-
+    <a href="{% url 'articles:popular' %}" class="button fit">もっとトピックを読む</a>
   </section>
 {% endblock content %}

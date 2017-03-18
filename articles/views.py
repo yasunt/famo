@@ -7,9 +7,14 @@ from articles.models import Article, Comment
 
 def detail(request, article_id):
     article = get_object_or_404(Article, id=article_id)
+    article.hits += 1
+    article.save()
     comments = article.comment_set.all()
     context = {'article': article, 'comments': comments}
     return render(request, 'articles/detail.html', context)
+
+def popular(request):
+    return render(request, 'articles/popular.html')
 
 @login_required
 def comment(request):
@@ -23,8 +28,9 @@ def comment(request):
     except:
         raise Http404
     article = get_object_or_404(Article, id=article_id)
-    comment = article.comment_set.filter(user=request.user)[0]
+    comment = article.comment_set.filter(user=request.user)
     if comment:
+        comment = comment[0]
         comment.content = content
     else:
         comment = Comment(user=request.user, content=request.POST['content'], article=article)

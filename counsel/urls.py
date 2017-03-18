@@ -5,6 +5,7 @@ from . import views
 app_name = 'counsel'
 urlpatterns = [
     url(r'^post/$', views.post, name='post'),
+    url(r'^popular/$', views.popular, name='popular'),
     url(r'^evaluate/$', views.evaluate, name='evaluate'),
     url(r'^post_answer/(?P<question_id>\d+)/$', views.post_answer, name='post_answer'),
     url(r'^post_question/$', views.post_question, name='post_question'),
