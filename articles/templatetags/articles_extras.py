@@ -1,4 +1,6 @@
+import os
 from django import template
+from django.conf import settings
 from articles.models import Article
 
 register = template.Library()
@@ -10,6 +12,17 @@ def popular_articles(self, num, category=None):
     else:
         return Article.objects.order_by('hits')[:num]
 
+@register.filter
+def get_article_image(url):
+    default_image_path = 'commons/images/pic01.jpg'
+    if url:
+        return url
+    else:
+        return os.path.join(settings.STATIC_URL, default_image_path)
+
+@register.filter
+def complete_url(url):
+    return ''.join(['http://', url])
 
 @register.inclusion_tag('articles/comment_form.html')
 def comment_form():

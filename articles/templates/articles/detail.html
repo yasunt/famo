@@ -29,24 +29,20 @@
 {% endblock extend_head %}
 
 {% block content %}
-<section id="main_article">
-      <h4><a href="{{ article.url }}">{{ article.title }}</a></h4>
-      <div class="row">
-        <p><span class="image left"><a href="{{ article.url }}"><img src="{{ article.img_url }}" alt="" /></a><br>記事元: xxx.com</span>
-          {{ article.preface }}...
-        </p>
-      </div>
-    <a href="{{ article.url }}" class="button fit">続きを読む</a>
-</section>
+{% article_node article %}
 
 
 <section id="comment list">
   <h3>この記事に寄せられたコメント</h3>
-  {% for comment in comments %}
+  {% if comments %}
+    {% for comment in comments %}
   <article id="comment{{ comment.id }}">
     {% comment_node comment %}
   </article>
-  {% endfor %}
+    {% endfor %}
+  {% else %}
+    <p>まだコメントがありません。</p>
+  {% endif %}
 </section>
 
   <!-- Trigger the modal with a button -->

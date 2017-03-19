@@ -4,6 +4,10 @@ from accounts.models import FamoUser
 class Article(models.Model):
     def __str__(self):
         return self.title
+
+    def get_domain(self):
+        return self.url.split('/')[0]
+
     title = models.CharField(default='', max_length=100)
     url = models.URLField(default='')
     preface = models.CharField(default='', max_length=300)

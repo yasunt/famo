@@ -5,7 +5,11 @@ register = template.Library()
 
 @register.filter
 def get_answers(question):
-    return Answer.objects.filter(question=question).order_by('updated_date')[:10]
+    return Answer.objects.filter(question=question).order_by('-updated_date')[:10]
+
+@register.filter
+def get_your_answers(user):
+    return Answer.objects.filter(user=user).order_by('-updated_date')
 
 @register.filter
 def get_categories(num=20):

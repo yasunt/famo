@@ -4064,10 +4064,8 @@
 		}
 
 		/* thumbnail */
-		.thumbnail img {
-			height: 30px;
-			width: 30px;
-			border-radius: 10px;
-			display: none;
-			background-position: center center;
+		.articleNode {
+			height: 10px;
+			width: 10px;
+			border-radius: 30px;
 		}

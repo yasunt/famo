@@ -1,0 +1,18 @@
+{% extends 'commons/base.html' %}
+
+{% block title %}
+Signup
+{% endblock title %}
+
+{% block content %}
+  <section>
+  {% if error_message %}
+    {{ error_message }}
+  {% endif %}
+  <form method="post" action="{% url 'top:signup' %}">
+    {{ form.as_p }}
+    <input type="submit" value="signup"/>
+    {% csrf_token %}
+  </form>
+<section>
+{% endblock content %}
