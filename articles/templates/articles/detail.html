@@ -1,5 +1,6 @@
 {% extends 'commons/base.html' %}
 {% load static %}
+{% load commons_extras %}
 {% load articles_extras %}
 
 {% block extend_head %}
@@ -10,18 +11,18 @@
 <script>
   $(document).ready(function() {
     $('#open_modal_button').click(function() {
-      $.ajax({
-        'url': "{% url 'articles:get_last_comment' %}",
-        'type': 'POST',
-        'data': {
-          csrfmiddlewaretoken: '{{ csrf_token }}',
-          'article_id': '{{ article.id }}',
-        },
-        'dataType': 'json',
-        'success': function(response) {
-          $('#content').val(response.content);
-        }
-      })
+        $.ajax({
+          'url': "{% url 'articles:get_last_comment' %}",
+          'type': 'POST',
+          'data': {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            'article_id': '{{ article.id }}',
+          },
+          'dataType': 'json',
+          'success': function(response) {
+            $('#content').val(response.content);
+          }
+        })
     })
     $('#submit').click(function() {
       $.ajax({
@@ -35,10 +36,15 @@
         'dataType': 'json',
         'success': function(response) {
           $('#close').click();
+          location.reload();
         }
       });
     });
     $("[id^='good_button']").click(function() {
+        if (!'{{ request.user.username }}') {
+          $('#open_modal_button').click();
+        }
+        else {
         var target = this;
         $.ajax({
           'url': "{% url 'articles:evaluate' %}",
@@ -51,8 +57,15 @@
           'dataType': 'json',
           'success': function(response) {
             $(target).text('Good ' + '+' + response.good_rators_count);
+            if (response.is_evaluated) {
+              target.className = 'button special small';
+            }
+            else {
+              target.className = 'button small';
+            }
           }
         });
+        }
       });
     });
 </script>
@@ -64,23 +77,15 @@
 
 <hr>
 <!-- Trigger the modal with a button -->
-<button type="button" class="btn fit" data-toggle="modal" data-target="#CommentModal" id="open_modal_button">コメントする</button>
+<button type="button" class="btn fit" data-toggle="modal" data-target="#{% if request.user.username %}CommentModal{% else %}loginModal{% endif %}" id="open_modal_button">コメントする</button>
 <!-- Modal -->
-<div class="modal fade" id="CommentModal" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-body">
-        {% comment_form %}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn fit" data-dismiss="modal" id="close">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+{% if request.user.username %}
+  {% comment_modal %}
+{% else %}
+  {% login_modal %}
+{% endif %}
 
-<section id="comment list">
+<section id="commentList">
   <h5>この記事に寄せられたコメント</h5>
   {% if comments %}
     {% for comment in comments %}
@@ -88,7 +93,7 @@
   <article id="comment{{ comment.id }}">
     {% comment_node comment %}
   </article>
-  <button type="button" class="button small" id="good_button{{ comment.id }}">Good +{{ comment|count_good_rators }}</button>
+  <button type="button" class="button {% if comment|is_evaluated:request.user %}special {% endif %}small" id="good_button{{ comment.id }}">Good +{{ comment|count_good_rators }}</button>
     {% endfor %}
   {% else %}
     <p>まだコメントがありません。</p>

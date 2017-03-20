@@ -1,5 +1,6 @@
 from django import template
 from counsel.models import Question, Answer, Category
+from django.contrib.auth.forms import AuthenticationForm
 
 register = template.Library()
 
@@ -33,3 +34,7 @@ def get_popular_questions(num, category=False):
 @register.filter
 def get_categories(num=30):
     return Category.objects.order_by('name')[:num]
+
+@register.inclusion_tag('commons/login_modal.html')
+def login_modal():
+    return {'login_form': AuthenticationForm()}

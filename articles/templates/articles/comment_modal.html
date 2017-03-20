@@ -1,0 +1,15 @@
+{% load articles_extras %}
+
+<div class="modal fade" id="CommentModal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+        {% comment_form %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn fit" data-dismiss="modal" id="close">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

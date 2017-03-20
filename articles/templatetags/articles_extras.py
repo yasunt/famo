@@ -33,6 +33,13 @@ def top_comment(article):
         return ''
 
 @register.filter
+def is_evaluated(comment, user):
+    if comment.good_rators.filter(username=user.username).exists():
+        return True
+    else:
+        return False
+
+@register.filter
 def complete_url(url):
     return ''.join(['http://', url])
 
@@ -55,3 +62,7 @@ def article_detail_button(article):
 @register.inclusion_tag('articles/article_origin_button.html')
 def article_origin_button(article):
     return {'article': article}
+
+@register.inclusion_tag('articles/comment_modal.html')
+def comment_modal():
+    return {}

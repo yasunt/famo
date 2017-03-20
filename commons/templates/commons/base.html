@@ -97,9 +97,11 @@
 								</nav>
 
 							<!-- Section -->
+								{% if request.user.username %}
 								<section>
 									<a href="{% url 'logout' %}" class="button">ログアウト</a>
 								</section>
+								{% endif %}
 
 							<!-- Footer -->
 								<footer id="footer">

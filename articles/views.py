@@ -49,9 +49,10 @@ def evaluate(request):
         comment = get_object_or_404(Comment, id=request.POST['comment_id'])
         if not comment.good_rators.filter(id=request.user.id).exists():
             comment.good_rators.add(request.user)
+            response = json.dumps({'good_rators_count': comment.good_rators.count(), 'is_evaluated': True})
         else:
             comment.good_rators.remove(request.user)
-        response = json.dumps({'good_rators_count': comment.good_rators.count()})
+            response = json.dumps({'good_rators_count': comment.good_rators.count(), 'is_evaluated': False})
         return HttpResponse(response)
     else:
         pass

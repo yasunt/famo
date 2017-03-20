@@ -1,0 +1,20 @@
+<!-- Modal -->
+<div class="modal fade" id="loginModal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>ログイン後にコメント・イイねが可能になります。</p>
+        <form method="post" action="{% url 'login' %}">
+          {% csrf_token %}
+          {{ login_form }}
+          <br/>
+          <input type="submit" class="button fit">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a href="{% url 'top:signup' %}" class="button fit" id="signup">新規会員登録</a>
+      </div>
+    </div>
+  </div>
+</div>
