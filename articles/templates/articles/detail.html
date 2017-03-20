@@ -88,7 +88,7 @@
   <article id="comment{{ comment.id }}">
     {% comment_node comment %}
   </article>
-  <a class="button small" id="good_button{{ comment.id }}">Good +{{ comment|count_good_rators }}</a>
+  <button type="button" class="button small" id="good_button{{ comment.id }}">Good +{{ comment|count_good_rators }}</button>
     {% endfor %}
   {% else %}
     <p>まだコメントがありません。</p>
