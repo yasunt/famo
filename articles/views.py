@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse
 from articles.models import Article, Comment
+from accounts.models import FamoUser
 
 
 def detail(request, article_id):
@@ -38,3 +39,36 @@ def comment(request):
     response = json.dumps({'state': comment.id})
     return HttpResponse(response)
     # return render(request, 'articles/detail.html', {'article': article})
+
+@login_required
+def evaluate(request):
+    if request.method == 'POST':
+        if request.user.id != request.POST['user_id']:
+            # raise HTTPERROR
+            pass
+        comment = get_object_or_404(Comment, id=request.POST['comment_id'])
+        if not comment.good_rators.filter(id=request.user.id).exists():
+            comment.good_rators.add(request.user)
+        else:
+            comment.good_rators.remove(request.user)
+        response = json.dumps({'good_rators_count': comment.good_rators.count()})
+        return HttpResponse(response)
+    else:
+        pass
+
+def get_last_comment(request):
+    if request.method != 'POST':
+        raise Http404
+    if not request.user.id:
+        return HttpResponse(json.dumps({'content': None}))
+    try:
+        article_id = request.POST['article_id']
+    except:
+        raise Http404
+    article = get_object_or_404(Article, id=article_id)
+    user = get_object_or_404(FamoUser, id=request.user.id)
+    comment_objs = article.comment_set.filter(user=user)
+    if comment_objs.exists():
+        return HttpResponse(json.dumps({'content': comment_objs[0].content}))
+    else:
+        return HttpResponse(json.dumps({'content': None}))

@@ -39,6 +39,10 @@ def post_question_form():
 def post_question_modal():
     return {}
 
+@register.inclusion_tag('counsel/post_answer_modal.html')
+def post_answer_modal(question):
+    return {'question': question}
+
 """
 @register.simple_tag
 def get_question_node(question_obj, context):

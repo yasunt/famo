@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from accounts.models import FamoUser
+from counsel.models import Answer
 import json
 
 @login_required
@@ -32,6 +33,16 @@ def follow(request):
         return HttpResponse(response)
     else:
         pass
+
+def answers(request, username):
+    context = {'answers': Answer.objects.filter(user__username=username)}
+    return render(request, 'portfolio/answers.html', context)
+
+def comments(request):
+    return render(request, 'portfolio/comments.html')
+
+def questions(request):
+    return render(request, 'portfolio/question.html')
 
 def test(request):
     return render(request, 'test/index.html')

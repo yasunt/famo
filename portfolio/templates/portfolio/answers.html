@@ -1,0 +1,14 @@
+{% extends 'commons/base.html' %}
+
+{% block content %}
+<section id="answers">
+  <h2>過去の回答</h2>
+  {% for answer in answers %}
+    <section id="question{{ answer.id }}">
+    <a href="{% url 'counsel:detail' answer.question.id %}">{{ answer.title }}</a>
+    <p>{{ answer.content }}</p>
+    <a class="button fit">トピック詳細ページへ</a>
+    </section>
+  {% endfor %}
+</section>
+{% endblock content %}

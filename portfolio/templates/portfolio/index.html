@@ -32,14 +32,17 @@
 
 {% block content %}
 <section id="profile">
+  <h4>マイページ</h4>
   <span class="image fit"><img src="{% static 'commons/images/pic07.jpg' %}"></span>
   <strong>username: {{ user.username }}</strong>
+  <p><a href="{% url 'logout' %}" class="button">ログアウトする</a></p>
 </section>
 
 <section id="questions">
   <h3>最近の質問</h3>
   {% for question in user|get_questions %}
   <section id="question{{ question.id }}">
+    <hr>
     <a href="{% url 'counsel:question' question.id %}"><h4>{{ question.title }}</h4></a>
     <p>{{ question.content }}</p>
     <p>(新着回答: {{ question|count_new_answers }}件)</p>
@@ -51,10 +54,11 @@
   <h3>最近の回答</h3>
   {% for answer in user|get_your_answers %}
   <section id="answer{{ answer.id }}">
-    <a href="{% url 'counsel:question' answer.question.id %}"><h4>{{ answer.title }}</h4></a>
-    <p>{{ answer.content }}</p>
+    <hr>
+    {% answer_portfolio_node answer %}
   </section>
   {% endfor %}
+</section>
   <ul class="pagination">
     {% if page > 1 %}
   	<li><span class="button">Prev</span></li>
@@ -62,9 +66,6 @@
     <li><a href="#" class="button">Next</a></li>
   </ul>
 
-<section id="logout">
-  <a href="{% url 'logout' %}" class="button"><p>ログアウトする</p></a>
-</section>
   {% post_question_modal %}
 
 {% endblock content %}

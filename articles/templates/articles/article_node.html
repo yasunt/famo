@@ -3,8 +3,7 @@
 
 <section id="article_{{ article.id }}">
   <h2><a href="{{ article.url|complete_url }}">{{ article.title }}</a></h2>
-  <span class="image fit"><a href="{{ article.url|complete_url }}"><img src="{% if article.img_url %}{{ article.img_url|complete_url }}{% else %}{{ article.img_url|get_article_image }}{% endif %}"></a></span>
+  <!--<span class="image fit"><a href="{{ article.url|complete_url }}"><img src="{% if article.img_url %}{{ article.img_url|complete_url }}{% else %}{{ article.img_url|get_article_image }}{% endif %}"></a></span>-->
   <p>{{ article.preface }}<p>
   <p>掲載元: {{ article.get_domain }}</p>
-  <a href="{{ article.url|complete_url }}" class="button fit">掲載元ページで続きを読む</a>
 </section>

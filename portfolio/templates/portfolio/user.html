@@ -7,7 +7,7 @@
 <script src="{% static 'commons/assets/js/csrf.js' %}"></script>
 <script type="text/javascript">
   $(document).ready(function() {
-    $('#follow').click(function() {
+     $('#follow').click(function() {
       $.ajax({
         'url': "{% url 'portfolio:follow' %}",
         'type': 'POST',
@@ -25,26 +25,42 @@
 </script>
 {% endblock extend_head %}
 
-{% block username %}{{ user.username }}{% endblock username %}
-{% block description %}
-  <br>
+
+{% block content %}
+<section id="profile">
+  <span class="image fit"><img src="{% static 'commons/images/pic01.jpg' %}"></span>
+  <h3>ユーザー名： {{ user.username }}</h3>
+  <!-- follow button -->
   <a class="button fit" id="follow">
     {% if following %}フォロー中{% else %}フォローする{% endif %}
   </a>
-{% endblock description %}
-{% block content %}
-<section id="question">
-  <h1>Latest Questions</h1>
-  {% for question in user|latest_questions:10 %}
+</section>
+
+<section id="questions">
+  <h1>過去に作成したトピック</h1>
+  {% for question in user|latest_questions:5 %}
     <strong><a href="{% url 'counsel:detail' question.id %}">{{ question.title }}</a></strong><br>
-    {% if forloop.counter > 9 %}
+    <p>{{ question.content|cut_text:50 }}...</p>
+    {% if forloop.counter > 5 %}
+  </br>
+  <a href="#" class="button fit">More</a>
     {% endif %}
   {% endfor %}
 </section>
-<section id="answer">
-  <h1>Latest Answers</h1>
-  {% for answer in user|latest_answers:10 %}
-    <strong><a href="">{{ answer.title }}</a></strong><br>
+
+<section id="answers">
+  <h1>過去の回答</h1>
+  {% for answer in user|latest_answers:6 %}
+  <section id="answer{{ answer.id }}">
+    <h4><strong><a href="{% url 'counsel:detail' answer.question.id %}">トピック: {{ answer.question.title }}への回答 - {{ answer.title }}</a></strong></h4>
+    <p>{{ answer.content|cut_text:30 }}...</p>
+    <p><a class="button small">編集する</a></p>
+  </section>
+    {% if forloop.counter > 5 %}
+  </br>
+  <a href="{% url 'portfolio:answers' user %}" class="button fit">More</a>
+    {% endif %}
   {% endfor %}
 </section>
+
 {% endblock content %}

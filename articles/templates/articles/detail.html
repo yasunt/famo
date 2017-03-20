@@ -9,6 +9,20 @@
 <script src="{% static 'commons/assets/js/csrf.js' %}"></script>
 <script>
   $(document).ready(function() {
+    $('#open_modal_button').click(function() {
+      $.ajax({
+        'url': "{% url 'articles:get_last_comment' %}",
+        'type': 'POST',
+        'data': {
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          'article_id': '{{ article.id }}',
+        },
+        'dataType': 'json',
+        'success': function(response) {
+          $('#content').val(response.content);
+        }
+      })
+    })
     $('#submit').click(function() {
       $.ajax({
         'url': "{% url 'articles:comment' %}",
@@ -24,42 +38,61 @@
         }
       });
     });
-  });
+    $("[id^='good_button']").click(function() {
+        var target = this;
+        $.ajax({
+          'url': "{% url 'articles:evaluate' %}",
+          'type': 'POST',
+          'data': {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            'user_id': '{{ user.id }}',
+            'comment_id': target.id.replace('good_button', ''),
+          },
+          'dataType': 'json',
+          'success': function(response) {
+            $(target).text('Good ' + '+' + response.good_rators_count);
+          }
+        });
+      });
+    });
 </script>
 {% endblock extend_head %}
 
 {% block content %}
 {% article_node article %}
+{% article_origin_button article %}
 
+<hr>
+<!-- Trigger the modal with a button -->
+<button type="button" class="btn fit" data-toggle="modal" data-target="#CommentModal" id="open_modal_button">コメントする</button>
+<!-- Modal -->
+<div class="modal fade" id="CommentModal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+        {% comment_form %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn fit" data-dismiss="modal" id="close">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <section id="comment list">
-  <h3>この記事に寄せられたコメント</h3>
+  <h5>この記事に寄せられたコメント</h5>
   {% if comments %}
     {% for comment in comments %}
+  <hr>
   <article id="comment{{ comment.id }}">
     {% comment_node comment %}
   </article>
+  <a class="button small" id="good_button{{ comment.id }}">Good +{{ comment|count_good_rators }}</a>
     {% endfor %}
   {% else %}
     <p>まだコメントがありません。</p>
   {% endif %}
 </section>
-
-  <!-- Trigger the modal with a button -->
-  <button type="button" class="btn fit" data-toggle="modal" data-target="#CommentModal">コメントする</button>
-  <!-- Modal -->
-  <div class="modal fade" id="CommentModal" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-body">
-          {% comment_form %}
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn fit" data-dismiss="modal" id="close">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
 {% endblock content %}

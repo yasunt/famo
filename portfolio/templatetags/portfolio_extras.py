@@ -10,6 +10,10 @@ def get_questions(user):
     questions = Question.objects.filter(user=user)[:10]
     return questions
 
+@register.filter
+def cut_text(text, num):
+    return text[:num]
+
 def latest_user_objs(model_, user, num):
     return model_.objects.filter(user=user)[:num]
 
@@ -28,3 +32,7 @@ def count_new_answers(question):
         return 0
     else:
         return answers.count()
+
+@register.inclusion_tag('portfolio/answer_portfolio_node.html')
+def answer_portfolio_node(answer):
+    return {'answer': answer}

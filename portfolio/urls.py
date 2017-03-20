@@ -7,5 +7,6 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^follow/$', views.follow, name='follow'),
     url(r'^test/$', views.test, name='test'),
-    url(r'^(?P<username>\S+)/$', views.user, name='user'),
+    url(r'^(?P<username>\S+?)/answers', views.answers, name='answers'),
+    url(r'^(?P<username>\S+?)/', views.user, name='user'),
 ]

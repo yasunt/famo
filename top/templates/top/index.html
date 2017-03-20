@@ -5,7 +5,7 @@
 {% block content %}
   <section id="popular_article">
     <h2>注目記事</h2>
-    <span class="image fit"><a href="#"><img src="{{ popular_article.img_url }}"></a></span>
+    <span class="image fit"><a href="{% url 'articles:detail' popular_article.id %}"><img src="{{ popular_article.img_url }}"></a></span>
     <p><a href="{% url 'articles:detail' popular_article.id %}"><h2>{{ popular_article.title }}</h2></a></p>
     <p>{{ popular_article.preface }}...</p>
     <p>掲載元: {{ article.get_domain }}</p>
@@ -21,8 +21,9 @@
       {% for question in 6|get_popular_questions %}
       <div class="6u">
         <span class="image fit">
+          ... カテゴリ
           <img src="{% static 'commons/images/pic06.jpg' %}">
-          <a href="{% url 'counsel:detail' question.id %}">{{ question.title }}</a>: ~カテゴリ
+          <a href="{% url 'counsel:detail' question.id %}">{{ question.title }}</a>
         </span>
       </div>
       {% endfor %}

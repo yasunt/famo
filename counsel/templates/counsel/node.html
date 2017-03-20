@@ -1,32 +1,25 @@
 {% load counsel_extras %}
 
-<div class="row">
-  <div class="col-sm-2">
-    <p>{% if question %}
-         {% if not question.anonymous %}
-           {{ question.user.username }}
-         {% else %}anonymous
-         {% endif %}
-       {% else %}
-         {% if not answer.anonymous %}
-           {{ answer.user.username }}
-         {% else %}
-           anonymous
-         {% endif %}
-       {% endif %}<br>
-       {% if question %}{{ question.date }}{% else %}{{ answer.date }}{% endif %}
-    </p>
-  </div>
-  <div class="col-sm-10">
-    <div class="chat-area">
-      <div class="main">
         {% if question %}
           {{ question.content }}
         {% else %}
           {{ answer.content }}
         {% endif %}
-      </div>
-    </div>
+  <p>{% if question %}
+         {% if not question.anonymous %}
+         from. <a href="{% url 'portfolio:user' %}">{{ question.user.username }}</a>
+         {% else %}from. 匿名
+         {% endif %}
+       {% else %}
+         {% if not answer.anonymous %}
+         <p>from. <a href="{% url 'portfolio:user' answer.user %}">{{ answer.user.username }}</a></p>
+         {% else %}
+         <p>from. 匿名</p>
+         {% endif %}
+       {% endif %}
+       {% if question %}({{ question.updated_date }} 投稿){% else %}({{ answer.updated_date }} 投稿){% endif %}
+  </p>
+  <p>
     {% if answer %}
     <a class="button special small" id="good_button{{ answer.id }}">Good +{{ answer|count_good_rators }}</a>
     <a class="button special small" id="bad_button{{ answer.id }}">Bad</a>
@@ -56,7 +49,6 @@
 
       </div>
     </div>
-    {% endifequal %}
+  </p>
 
-  </div>
-</div>
+    {% endifequal %}

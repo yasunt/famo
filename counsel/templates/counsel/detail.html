@@ -34,18 +34,16 @@
 {% block content %}
 
 
-*TOPIC - {{ question.title }}*
 <section id="question">
+  <h3>{{ question.title }}</h3>
   {% get_question_node question user %}
 </section>
+{% post_answer_modal question %}
   {% for answer in answers %}
 <section id="answer{{ forloop.counter }}">
     {% get_answer_node answer user %}
 </section>
   {% endfor %}
-<section id="post_form">
-  {% post_answer_form question.id %}
-</section>
 
 {% endblock content %}
 
