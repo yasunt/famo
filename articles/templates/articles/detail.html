@@ -10,7 +10,7 @@
 <script src="{% static 'commons/assets/js/csrf.js' %}"></script>
 <script>
   $(document).ready(function() {
-    $('#open_modal_button').click(function() {
+    $('#command').click(function() {
         $.ajax({
           'url': "{% url 'articles:get_last_comment' %}",
           'type': 'POST',
@@ -77,7 +77,9 @@
 
 <hr>
 <!-- Trigger the modal with a button -->
+<!--
 <button type="button" class="btn fit" data-toggle="modal" data-target="#{% if request.user.username %}CommentModal{% else %}loginModal{% endif %}" id="open_modal_button">コメントする</button>
+-->
 <!-- Modal -->
 {% if request.user.username %}
   {% comment_modal %}
@@ -86,7 +88,7 @@
 {% endif %}
 
 <section id="commentList">
-  <h5>この記事に寄せられたコメント</h5>
+  <h4>この記事に寄せられたコメント</h4>
   {% if comments %}
     {% for comment in comments %}
   <hr>
@@ -100,4 +102,5 @@
   {% endif %}
 </section>
 
+<button type="button" class="special small" data-toggle="modal" data-target="#{% if request.user.username %}CommentModal{% else %}loginModal{% endif %}" id="command"><img src="{% static 'commons/images/pen.png' %}" id="pencil"></button>
 {% endblock content %}

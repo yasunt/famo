@@ -1,4 +1,18 @@
 {% extends 'commons/base.html' %}
+{% load static %}
+{% load counsel_extras %}
 
 {% block content %}
+<section id="questions">
+  <h2>注目トピック</h2>
+  <div class="box alt">
+    <div class="row 50% uniform">
+    {% for question in questions %}
+    <div class="6u">
+      {% popular_question_node question %}
+    </div>
+    {% endfor %}
+    </div>
+  </div>
+</section>
 {% endblock content %}

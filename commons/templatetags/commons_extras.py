@@ -32,6 +32,13 @@ def get_popular_questions(num, category=False):
             return None
 
 @register.filter
+def cut_text(text, num):
+    if len(text) > num:
+        return ''.join([text[:num], '...'])
+    else:
+        return text
+
+@register.filter
 def get_categories(num=30):
     return Category.objects.order_by('name')[:num]
 

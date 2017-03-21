@@ -1,6 +1,6 @@
 from django import template
-from counsel.models import Answer, Category
-
+from counsel.models import Answer, Category, Question
+from django.db.models import Count
 register = template.Library()
 
 @register.filter
@@ -10,6 +10,12 @@ def get_answers(question):
 @register.filter
 def get_your_answers(user):
     return Answer.objects.filter(user=user).order_by('-updated_date')
+
+"""
+@register.filter
+def get_top_answer(question):
+    return Question.objects.annotate(Count(rates=good_rators)).order_by('-value')[0]
+"""
 
 @register.filter
 def get_categories(num=20):
@@ -22,6 +28,14 @@ def count_good_rators(answer):
 @register.inclusion_tag('counsel/node.html')
 def get_question_node(question_obj, user):
     return {'question': question_obj, 'user': user}
+
+@register.inclusion_tag('counsel/popular_question_node.html')
+def popular_question_node(question):
+    answers = question.answer_set
+    if answers.count() > 0:
+        return {'question': question, 'top_comment': answers.annotate(rates=Count('good_rators')).order_by('-rates')[0]}
+    else:
+        return {'question': question}
 
 @register.inclusion_tag('counsel/node.html')
 def get_answer_node(answer_obj, user):

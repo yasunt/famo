@@ -15,7 +15,7 @@ def post_answer(request, question_id):
     return post_content(request, 'answer', question_id)
 
 def popular(request):
-    return render(request, 'counsel/popular.html')
+    return render(request, 'counsel/popular.html', {'questions': Question.objects.order_by('-hits')[:20]})
 
 def post_content(request, content_type, question_id=None):
     if not request.method == 'POST':

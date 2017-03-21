@@ -22,14 +22,14 @@
       <div class="6u">
         <span class="image fit">
           ... カテゴリ
-          <img src="{% static 'commons/images/pic06.jpg' %}">
+          <img src="{% static 'commons/images/study.jpg' %}">
           <a href="{% url 'counsel:detail' question.id %}">{{ question.title }}</a>
         </span>
       </div>
       {% endfor %}
       </div>
     </div>
-    <a href="{% url 'articles:popular' %}" class="button fit">その他のトピックを読む</a>
+    <a href="{% url 'counsel:popular' %}" class="button fit">その他のトピックを読む</a>
   </section>
 
   <section id="questionnaire">
