@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^portfolio/', include('portfolio.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('accounts.urls')),
+    url(r'^search/', include('search.urls')),
     url('^', include('django.contrib.auth.urls')),
 ]

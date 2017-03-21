@@ -3,5 +3,5 @@ from . import views
 
 app_name = 'category'
 urlpatterns = [
-    url(r'^(?P<category>\w+)/$', views.topics, name='topics'),
+    url(r'^(?P<category>\w+)/', views.category, name='category'),
 ]

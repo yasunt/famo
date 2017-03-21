@@ -2,6 +2,7 @@ import re
 from urllib import request, parse
 from bs4 import BeautifulSoup
 from readability import readability
+from django.conf import settings
 from articles.models import Article
 import time
 
@@ -81,25 +82,14 @@ class NikkeiDualCroller(Croller):
         for article in article_elements:
             yield article.h1.contents[0], ''.join([self.domain, article.get('href')])
 
-
-def test():
-    croller = NikkeiDualCroller()
-    for i, x in enumerate(croller.feed()):
-        if i >= 10:
-            break
-        print(x)
-        time.sleep(5)
-
-def run_dayily_schedule(crollers=[NikkeiDualCroller]):
+def run_dayily_schedule(crollers=[AsahiCroller,]):
     for croller in crollers:
         croller = croller()
         for title, url, preface, img_url in croller.feed():
             if Article.objects.filter(url=url).exists():
-                article = Article.objects.get(url=url)
-                article.img_url = img_url
+                continue
             else:
                 article = Article(title=title, url=url, preface=preface, img_url=img_url)
             print(article)
             article.save()
             time.sleep(3)
-run_dayily_schedule()

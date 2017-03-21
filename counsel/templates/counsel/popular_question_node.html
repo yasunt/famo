@@ -1,9 +1,14 @@
 {% load commons_extras %}
 {% load counsel_extras %}
 
-<h2>{{ question.title }}</h2>
-<p>{{ question.content|cut_text:40 }}</br>from. {% if question.user.anonymous %}匿名{% else %}{{ question.user }}{% endif %}</p>
+{{ question.updated_date }}
+<h2><a href="{% url 'counsel:detail' question.id %}">{{ question.title }}</a></h2>
+<p><strong>{{ question.content|cut_text:70 }}</strong></br>from. {% if question.user.anonymous %}匿名{% else %}{{ question.user }}{% endif %}</p>
 {% if top_comment %}
-<p>{{ top_comment.content }}</br>from. {% if top_comment.user.anonymous %}匿名{% else %}{{ top_comment.user }}{% endif %}</p>
-<button onclick=location.href="{% url 'counsel:detail' question.id %}" class="button fit">詳細へ</button>
+<hr>
+<section id="answer{{ answer.id }}">
+  <h4>回答</h4>
+  <p><strong>{{ top_comment.content|cut_text:50 }}</strong></br>from. {% if top_comment.user.anonymous %}匿名{% else %}{{ top_comment.user }}{% endif %}</p>
+  <button onclick=location.href="{% url 'counsel:detail' question.id %}" class="button fit">詳細へ</button>
+</section>
 {% endif %}

@@ -3,9 +3,13 @@ from django.template import RequestContext
 from accounts.models import FamoUser
 from articles.models import Article
 from accounts.forms import RegistrationForm
+from django.conf import settings
 
 def index(request):
-    context = {'popular_article': Article.objects.order_by('-hits')[0]}
+    categories = [{'name': '育児', 'img_url': 'commons/images/baby.jpg', 'key': 'child'}, {'name': '受験', 'img_url': 'commons/images/study.jpg', 'key': 'study'},
+        {'name': '妊娠・出産', 'img_url': 'commons/images/pregnant.jpg', 'key': 'study'}, {'name': '結婚・夫婦生活', 'img_url': 'commons/images/couple.jpg', 'key': 'couple'}
+    ]
+    context = {'popular_article': Article.objects.order_by('-hits')[0], 'categories': categories}
     return render(request, 'top/index.html', context)
 
 def signup(request):

@@ -2,10 +2,22 @@
 {% load commons_extras %}
 {% load static %}
 
+{% block extend_header_list %}
+{% if request.user.username %}
+<li><button class="special small" onclick=location.href="{% url 'portfolio:index' %}">マイページ</button></li>
+{% else %}
+<li><button class="special small" onclick=location.href="{% url 'login' %}">ログイン</button></li>
+<li><button class="small spacial" onclick=location.href="{% url 'top:signup' %}">会員登録</button></li>
+{% endif %}
+<section id="keywords">
+  <a class="button small fit" href="#">育児</a><a class="button small" href="#">育児</a><a class="button small" href="#">育児</a><a class="button small" href="#">育児</a>
+</section>
+{% endblock extend_header_list %}
+
 {% block content %}
   <section id="popular_article">
     <h2>注目記事</h2>
-    <span class="image fit"><a href="{% url 'articles:detail' popular_article.id %}"><img src="{{ popular_article.img_url }}"></a></span>
+    {% if popular_article.img_url %}<span class="image fit"><a href="{% url 'articles:detail' popular_article.id %}"><img src="{{ popular_article.img_url }}"></a></span>{% endif %}
     <p><a href="{% url 'articles:detail' popular_article.id %}"><h2>{{ popular_article.title }}</h2></a></p>
     <p>{{ popular_article.preface }}...</p>
     <p>掲載元: {{ article.get_domain }}</p>
@@ -18,12 +30,11 @@
     <div class="box alt">
       <div class="row 50% uniform">
 
-      {% for question in 6|get_popular_questions %}
+      {% for category in categories %}
       <div class="6u">
         <span class="image fit">
-          ... カテゴリ
-          <img src="{% static 'commons/images/study.jpg' %}">
-          <a href="{% url 'counsel:detail' question.id %}">{{ question.title }}</a>
+          <a href="{% url 'category:category' category.key %}"><img src="{% static category.img_url %}"></a>
+          <a href="#">{{ category.name }}</a>
         </span>
       </div>
       {% endfor %}

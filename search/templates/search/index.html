@@ -1,0 +1,31 @@
+{% extends 'commons/base.html' %}
+{% load articles_extras %}
+{% load counsel_extras %}
+
+{% block content %}
+<section id="results">
+  <section id="articles">
+    <h4>「{{ query }}」に関連する記事</h4>
+    {% if articles %}
+      {% for article in articles %}
+        {% article_node article %}
+        {% article_detail_button article %}
+      {% endfor %}
+    {% else %}
+      <p>検索結果は見つかりませんでした。</p>
+      <hr>
+    {% endif %}
+  </section>
+  <hr>
+  <section id="questions">
+    <h4>「{{ query }}」に関連するトピック</h4>
+    {% if questions %}
+      {% for question in questions %}
+        {% popular_question_node question %}
+      {% endfor %}
+    {% else %}
+      <p>検索結果は見つかりませんでした。</p>
+    {% endif %}
+  </section>
+</section>
+{% endblock content %}

@@ -4063,13 +4063,6 @@
 			padding-top: 0;
 		}
 
-		/* thumbnail */
-		.articleNode {
-			height: 10px;
-			width: 10px;
-			border-radius: 30px;
-		}
-
 		#command {
 			width: 60px;
 			height: 60px;

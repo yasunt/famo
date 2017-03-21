@@ -4,15 +4,14 @@
 
 {% block content %}
 <section id="questions">
-  <h2>注目トピック</h2>
-  <div class="box alt">
-    <div class="row 50% uniform">
-    {% for question in questions %}
-    <div class="6u">
-      {% popular_question_node question %}
-    </div>
-    {% endfor %}
-    </div>
-  </div>
+  <h2>注目のトピック</h2>
+  {% for question in questions %}
+  <section id="question{{ question.id }}">
+    <hr>
+    {% popular_question_node question %}
+  </section>
+  {% endfor %}
 </section>
+<section>
+  <h2>カテゴリから選ぶ</h2>
 {% endblock content %}

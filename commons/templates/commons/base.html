@@ -26,29 +26,19 @@
 						<div class="inner">
 							<!-- Header -->
 								<header id="header">
-									<a href="{% url 'top:index' %}" class="logo"><strong><h1>Famo</h1></strong></a>
+									<a href="{% url 'top:index' %}" class="logo"><strong>Famo</strong></a>
 									<ul class="icons">
 										<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
 										<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
 										<li><a href="#" class="icon fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
-										<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-										<li><a href="#" class="icon fa-medium"><span class="label">Medium</span></a></li>
+											{% if request.user.username %}
+											{% else %}
+											<li><button class="special small" onclick=location.href="{% url 'login' %}">ログイン</button></li>
+											<li><button class="small spacial" onclick=location.href="{% url 'top:signup' %}">会員登録</button></li>
+											{% endif %}
+											{% block extend_header_list %}{% endblock %}
 									</ul>
 								</header>
-
-
-							<!-- Banner
-								<section id="banner">
-									<div class="content">
-										<header>
-											<a href="{% url 'top:index' %}"><h1>Famo</h1></a>
-											{% block description %}
-                      <p>様々な家庭の悩みを相談できるサイトです</p>
-											{% endblock description %}
-										</header>
-									</div>
-								</section>
-							-->
 
 							<!-- Section -->
                 {% block content %}
@@ -62,12 +52,7 @@
 					<div id="sidebar">
 						<div class="inner">
 
-							<!-- Search -->
-								<section id="search" class="alt">
-									<form method="post" action="">{% csrf_token %}
-										<input type="text" name="query" id="query" placeholder="記事やトピックを検索" />
-									</form>
-								</section>
+							{% search_form %}
 
 								{% if not request.user.username %}
 								<section id="login">
@@ -89,7 +74,7 @@
 											<span class="opener">カテゴリ</span>
 											<ul>
 												{% for category in 10|get_categories %}
-												<li><a href="{% url 'category:topics' category %}">{{ category.name }}</a></li>
+												<li><a href="{% url 'category:category' category %}">{{ category.name }}</a></li>
 												{% endfor %}
 											</ul>
 										</li>

@@ -1,6 +1,7 @@
 from django import template
 from counsel.models import Question, Answer, Category
 from django.contrib.auth.forms import AuthenticationForm
+from search.forms import SearchForm
 
 register = template.Library()
 
@@ -45,3 +46,8 @@ def get_categories(num=30):
 @register.inclusion_tag('commons/login_modal.html')
 def login_modal():
     return {'login_form': AuthenticationForm()}
+
+@register.inclusion_tag('commons/search_form.html')
+def search_form():
+    search_form = SearchForm(prefix='search')
+    return {'search_form': search_form}
