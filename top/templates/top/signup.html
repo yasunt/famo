@@ -11,8 +11,9 @@ Signup
   {% endif %}
   <form method="post" action="{% url 'top:signup' %}">
     {{ form.as_p }}
-    <input type="submit" value="signup"/>
+    <p>登録を行うことによって<a href="{% url 'top:policy' %}">利用規約</a>及び<a href="{% url 'top:privacy' %}">プライバシーポリシー</a>に同意したものとみなします。</p>
+    <input type="submit" value="会員登録する（無料）"/>
     {% csrf_token %}
   </form>
-<section>
+  </section>
 {% endblock content %}

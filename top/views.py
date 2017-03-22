@@ -22,3 +22,9 @@ def signup(request):
             return render(request, 'top/signup.html', {'error_message': '項目を正しく入力してください'})
     form = RegistrationForm()
     return render(request, 'top/signup.html', {'form': form})
+
+def policy(request):
+    return render(request, 'top/policy.html')
+
+def privacy(request):
+    return render(request, 'top/privacy.html')
