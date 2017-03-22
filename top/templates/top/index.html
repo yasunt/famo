@@ -9,9 +9,6 @@
 <li><button class="special small" onclick=location.href="{% url 'login' %}">ログイン</button></li>
 <li><button class="small spacial" onclick=location.href="{% url 'top:signup' %}">会員登録</button></li>
 {% endif %}
-<section id="keywords">
-  <a class="button small fit" href="#">育児</a><a class="button small" href="#">育児</a><a class="button small" href="#">育児</a><a class="button small" href="#">育児</a>
-</section>
 {% endblock extend_header_list %}
 
 {% block content %}
@@ -34,7 +31,7 @@
       <div class="6u">
         <span class="image fit">
           <a href="{% url 'category:category' category.key %}"><img src="{% static category.img_url %}"></a>
-          <a href="#">{{ category.name }}</a>
+          <a href="{% url 'category:category' category.key %}">{{ category.name }}</a>
         </span>
       </div>
       {% endfor %}
@@ -42,7 +39,12 @@
     </div>
     <a href="{% url 'counsel:popular' %}" class="button fit">その他のトピックを読む</a>
   </section>
-
+  <section id="keywords">
+    <h2>注目のキーワード</h2>
+    {% for keyword in keywords %}
+    <a href="{% url 'category:category' keyword %}" class="button small{% if forloop.counter|divisibleby:2 %} special{% endif %}">{{ keyword }}</a>
+    {% endfor %}
+  </section>
   <section id="questionnaire">
     <h2>現在行われているアンケート</h2>
     <a href="#" class="button fit">その他のアンケートをみる</a>

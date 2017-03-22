@@ -1,0 +1,9 @@
+{% extends 'commons/base.html' %}
+
+{% block content %}
+<section>
+  {% for keyword in keywords %}
+    <a href="{% url 'category:category' keyword %}" class="button small">{{ keyword }}</a>
+  {% endfor %}
+</section>
+{% endblock content %}
