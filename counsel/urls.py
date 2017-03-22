@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^(?P<question_id>\d+)/$', views.detail, name='detail'),
     url(r'^get_last_answer/', views.get_last_answer, name='get_last_answer'),
     url(r'^check_a_post/$', views.check_a_post, name='check_a_post'),
+    url(r'^', views.index, name='index'),
 ]

@@ -52,13 +52,16 @@ def answer_node(answer_obj, user):
 def post_answer_form():
     return {}
 
-@register.inclusion_tag('counsel/post_question_node.html')
+@register.inclusion_tag('counsel/post_question_form.html')
 def post_question_form():
     return {}
 
 @register.inclusion_tag('counsel/post_question_modal.html')
-def post_question_modal():
-    return {}
+def post_question_modal(user):
+    if user.username:
+        return {'user': True}
+    else:
+        return {'user': False}
 
 @register.inclusion_tag('counsel/post_answer_modal.html')
 def post_answer_modal(user):

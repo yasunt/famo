@@ -86,6 +86,7 @@
 {% else %}
   {% login_modal %}
 {% endif %}
+<button type="button" class="fit" data-toggle="modal" data-target="#{% if request.user.username %}CommentModal{% else %}loginModal{% endif %}" id="command">コメントする</button>
 
 <section id="commentList">
   <h4>この記事に寄せられたコメント</h4>
@@ -101,6 +102,4 @@
     <p>まだコメントがありません。</p>
   {% endif %}
 </section>
-
-<button type="button" class="special small" data-toggle="modal" data-target="#{% if request.user.username %}CommentModal{% else %}loginModal{% endif %}" id="command"><img src="{% static 'commons/images/pen.png' %}" id="pencil"></button>
 {% endblock content %}

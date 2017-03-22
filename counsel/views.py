@@ -7,6 +7,9 @@ from counsel.scripts import validator
 from counsel.models import Question, Answer, Category
 from accounts.models import FamoUser
 
+def index(request):
+    return render(request, 'counsel/index.html')
+
 @login_required
 def post_question(request):
     return post_content(request, 'question')

@@ -28,11 +28,6 @@
 								<header id="header">
 									<a href="{% url 'top:index' %}" class="logo"><strong>Famo</strong></a>
 									<ul class="icons">
-											{% if request.user.username %}
-											{% else %}
-											<li><button class="special small" onclick=location.href="{% url 'login' %}">ログイン</button></li>
-											<li><button class="small spacial" onclick=location.href="{% url 'top:signup' %}">会員登録</button></li>
-											{% endif %}
 											{% block extend_header_list %}{% endblock %}
 									</ul>
 								</header>
