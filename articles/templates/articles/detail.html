@@ -42,7 +42,7 @@
     });
     $("[id^='good_button']").click(function() {
         if (!'{{ request.user.username }}') {
-          $('#open_modal_button').click();
+          $('#command').click();
         }
         else {
         var target = this;

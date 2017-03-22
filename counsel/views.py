@@ -5,33 +5,49 @@ from django.http import HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
 from counsel.scripts import validator
 from counsel.models import Question, Answer, Category
+from accounts.models import FamoUser
 
 @login_required
 def post_question(request):
     return post_content(request, 'question')
 
 @login_required
-def post_answer(request, question_id):
-    return post_content(request, 'answer', question_id)
+def post_answer(request):
+    return post_content(request, 'answer')
+
+def get_last_answer(request):
+    if request.method != 'POST':
+        raise Http404
+    if not request.user.id:
+        return HttpResponse(json.dumps({'content': None}))
+    try:
+        question_id = request.POST['question_id']
+    except:
+        raise Http404
+    question = get_object_or_404(Question, id=question_id)
+    user = get_object_or_404(FamoUser, id=request.user.id)
+    answer_objs = question.answer_set.filter(user=user)
+    if answer_objs.exists():
+        return HttpResponse(json.dumps({'content': answer_objs[0].content}))
+    else:
+        return HttpResponse(json.dumps({'content': None}))
 
 def popular(request):
     return render(request, 'counsel/popular.html', {'questions': Question.objects.order_by('-hits')[:20]})
 
-def post_content(request, content_type, question_id=None):
+def post_content(request, content_type):
     if not request.method == 'POST':
         raise Http404
-    title = request.POST['title']
     content = request.POST['content']
+    print(request.POST['anonymous'])
     try:
         anonymous = True if request.POST['anonymous'] == 'true' else False
     except:
         anonymous = False
-    if not (validator.is_valid(title) and validator.is_valid(content)):
-        context = {'message': 'Inappropriate Sentence.'}
+    if not validator.is_valid(content):
         raise Http404
-    else:
-        pass
     if content_type == 'question':
+        title = request.POST['title']
         try:
             category = get_object_or_404(Category, id=request.POST['category'])
         except:
@@ -40,17 +56,27 @@ def post_content(request, content_type, question_id=None):
             question = Question(title=title, content=content, user=request.user, anonymous=anonymous)
             question.save()
             question.category_set.add(category)
-            return render(request, 'counsel/detail.html', {'question': question})
+            return HttpResponse(json.dumps({'question_id': question.id}))
         except:
             raise HTTP404   # server error.
     elif content_type == 'answer':
-        question = get_object_or_404(Question, id=question_id)
-        try:
-            answer = Answer(title=title, content=content, question=question, user=request.user, anonymous=anonymous)
+        question = get_object_or_404(Question, id=request.POST['question_id'])
+        answer = question.answer_set.filter(user=request.user)
+        if answer.exists():
+            answer = answer[0]
+            answer.content = content
+            if anonymous:
+                answer.anonymous = True
+            else:
+                answer.anonymous = False
             answer.save()
-            return render(request, 'counsel/detail.html', {'question': question})
-        except:
-            raise Http404   # server error.
+        else:
+            try:
+                answer = Answer(title='', content=content, question=question, user=request.user, anonymous=anonymous)
+                answer.save()
+            except:
+                raise Http404   # server error.
+        return HttpResponse(json.dumps({'answer_id': answer.id}))
     else:
         raise Http404
 
@@ -61,16 +87,17 @@ def check_a_post(request):
 
 @login_required
 def evaluate(request):
-    print(type(request.POST['answer_id']))
     if request.method == 'POST':
         if request.user.id != request.POST['user_id']:
             # raise HTTPERROR
             pass
         answer = get_object_or_404(Answer, id=request.POST['answer_id'])
-        print(answer)
         if not answer.good_rators.filter(id=request.user.id).exists():
             answer.good_rators.add(request.user)
-        response = json.dumps({'good_rators_count': answer.good_rators.count()})
+            response = json.dumps({'good_rators_count': answer.good_rators.count(), 'is_evaluated': True})
+        else:
+            answer.good_rators.remove(request.user)
+            response = json.dumps({'good_rators_count': answer.good_rators.count(), 'is_evaluated': False})
         return HttpResponse(response)
     else:
         pass
@@ -79,10 +106,6 @@ def evaluate(request):
 def post(request):
     context = {'user': request.user, 'categories': Category.objects.all()}
     return render(request, 'counsel/post.html', context)
-
-def question(request, question_id):
-    context = {'question': Question.objects.get(id=question_id), 'user': request.user}
-    return render(request, 'counsel/question.html', context)
 
 @login_required
 def delete(request, question_id):

@@ -1,6 +1,6 @@
 {% load portfolio_extras %}
 
-<a href="{% url 'counsel:question' answer.question.id %}"><h4>{{ answer.title }}</h4></a>
+
 <p>{{ answer.content|cut_text:40 }}...</p>
 <p>{{ answer.updated_date }}</p>
 <a href="{% url 'counsel:detail' answer.question.id %}" class="button small">トピック詳細ページへ</a>

@@ -43,7 +43,7 @@
   {% for question in user|get_questions %}
   <section id="question{{ question.id }}">
     <hr>
-    <a href="{% url 'counsel:question' question.id %}"><h4>{{ question.title }}</h4></a>
+    <a href="{% url 'counsel:detail' question.id %}"><h4>{{ question.title }}</h4></a>
     <p>{{ question.content }}</p>
     <p>(新着回答: {{ question|count_new_answers }}件)</p>
   </section>

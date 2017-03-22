@@ -1,6 +1,7 @@
 {% extends 'commons/base.html' %}
 {% load static %}
 {% load counsel_extras %}
+{% load commons_extras %}
 
 {% block extend_head %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
@@ -11,23 +12,65 @@
 
 <script>
   $(document).ready(function() {
-    $("[id^='good_button']").click(function() {
-        var target = this;
+    $('#command').click(function() {
         $.ajax({
-          'url': "{% url 'counsel:evaluate' %}",
+          'url': "{% url 'counsel:get_last_answer' %}",
           'type': 'POST',
           'data': {
             csrfmiddlewaretoken: '{{ csrf_token }}',
-            'user_id': '{{ user.id }}',
-            'answer_id': target.id.replace('good_button', ''),
+            'question_id': '{{ question.id }}',
           },
           'dataType': 'json',
           'success': function(response) {
-            $(target).text('Good ' + '+' + response.good_rators_count);
+            $('#content').val(response.content);
           }
-        });
+        })
+    })
+    $('#submit').click(function() {
+      $.ajax({
+        'url': "{% url 'counsel:post_answer' %}",
+        'type': 'POST',
+        'data': {
+          csrfmiddlewaretoken: '{{ csrf_token }}',
+          'question_id': '{{ question.id }}',
+          'content': $("#content").val(),
+          'anonymous': $('#demo-human').is(":checked"),
+        },
+        'dataType': 'json',
+        'success': function(response) {
+          $('#close').click();
+          location.reload();
+        }
       });
     });
+    $("[id^='good_button']").click(function() {
+        if (!'{{ request.user.username }}') {
+          $('#command').click();
+        }
+        else {
+          var target = this;
+          $.ajax({
+            'url': "{% url 'counsel:evaluate' %}",
+            'type': 'POST',
+            'data': {
+              csrfmiddlewaretoken: '{{ csrf_token }}',
+              'user_id': '{{ user.id }}',
+              'answer_id': target.id.replace('good_button', ''),
+            },
+            'dataType': 'json',
+            'success': function(response) {
+              $(target).text('Good ' + '+' + response.good_rators_count);
+              if (response.is_evaluated) {
+                target.className = 'button special small';
+              }
+              else {
+                target.className = 'button small';
+              }
+            }
+        });
+      }
+    });
+  });
 </script>
 {% endblock extend_head %}
 
@@ -36,14 +79,21 @@
 
 <section id="question">
   <h3>{{ question.title }}</h3>
-  {% get_question_node question user %}
+  {% question_node question user %}
 </section>
-{% post_answer_modal question %}
+{% post_answer_modal request.user %}
+{% if not request.user.username %}
+  {% login_modal %}
+{% endif %}
+
+<section id="answers">
   {% for answer in answers %}
-<section id="answer{{ forloop.counter }}">
-    {% get_answer_node answer user %}
-</section>
+  <section id="answer{{ answer.id }}">
+    {% answer_node answer user %}
+  </section>
+  <hr>
   {% endfor %}
+</section>
 
 {% endblock content %}
 

@@ -25,9 +25,16 @@ def get_categories(num=20):
 def count_good_rators(answer):
     return answer.good_rators.count()
 
-@register.inclusion_tag('counsel/node.html')
-def get_question_node(question_obj, user):
-    return {'question': question_obj, 'user': user}
+@register.filter
+def is_evaluated_answer(answer, user):
+    if answer.good_rators.filter(username=user.username).exists():
+        return True
+    else:
+        return False
+
+@register.inclusion_tag('counsel/question_node.html')
+def question_node(question, user):
+    return {'question': question, 'user': user}
 
 @register.inclusion_tag('counsel/popular_question_node.html')
 def popular_question_node(question):
@@ -37,13 +44,13 @@ def popular_question_node(question):
     else:
         return {'question': question}
 
-@register.inclusion_tag('counsel/node.html')
-def get_answer_node(answer_obj, user):
+@register.inclusion_tag('counsel/answer_node.html')
+def answer_node(answer_obj, user):
     return {'answer': answer_obj, 'user': user}
 
-@register.inclusion_tag('counsel/post_answer_node.html')
-def post_answer_form(question_id):
-    return {'question_id': question_id}
+@register.inclusion_tag('counsel/post_answer_form.html')
+def post_answer_form():
+    return {}
 
 @register.inclusion_tag('counsel/post_question_node.html')
 def post_question_form():
@@ -54,8 +61,11 @@ def post_question_modal():
     return {}
 
 @register.inclusion_tag('counsel/post_answer_modal.html')
-def post_answer_modal(question):
-    return {'question': question}
+def post_answer_modal(user):
+    if user.username:
+        return {'user': True}
+    else:
+        return {'user': False}
 
 """
 @register.simple_tag
