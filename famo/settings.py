@@ -31,7 +31,7 @@ if gethostname() == 'yasu-Vostro-3458':
     ALLOWED_HOSTS = []
 else:
     DEBUG = False
-    ALLOWED_HOSTS = ['yasunt.pythonanywhere.com']
+    ALLOWED_HOSTS = ['www.famoo.club']
 
 
 # Application definition
