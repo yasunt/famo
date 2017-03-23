@@ -51,3 +51,7 @@ def login_modal():
 def search_form():
     search_form = SearchForm(prefix='search')
     return {'search_form': search_form}
+
+@register.inclusion_tag('commons/modal_libraries.html')
+def modal_libraries():
+    return {}

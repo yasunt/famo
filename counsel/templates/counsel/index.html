@@ -1,16 +1,20 @@
 {% extends 'commons/base.html' %}
+{% load commons_extras %}
 {% load counsel_extras %}
 {% load static %}
 
+{% block title %}
+  トピック情報 | Famo
+{% endblock title %}
+
 {% block extend_head %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script src="{% static 'commons/assets/js/csrf.js' %}"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% modal_libraries %}
+{% post_question_modal_scripts %}
 {% endblock extend_head %}
 
 {% block content %}
 <section>
+  <button type="button" class="button fit" data-toggle="modal" data-target="#{% if user %}questionModal{% else %}loginModal{% endif %}" id="command">質問を投稿する</button>
   {% post_question_modal request.user %}
 </section>
 {% endblock content %}

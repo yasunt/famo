@@ -3,12 +3,12 @@
 {% load counsel_extras %}
 {% load commons_extras %}
 
-{% block extend_head %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script src="{% static 'commons/assets/js/csrf.js' %}"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% block title %}
+  トピック： {{ question.title }}の詳細 | Famo
+{% endblock title %}
 
+{% block extend_head %}
+{% modal_libraries %}
 <script>
   $(document).ready(function() {
     $('#command').click(function() {
@@ -77,10 +77,17 @@
 
 
 <section id="question">
-  <h3>{{ question.title }}</h3>
   {% question_node question user %}
+  {% ifequal question.user user %}
+    <!-- Trigger the modal with a button -->
+    <button type="button" class="button fit" data-toggle="modal" data-target="#questionModal">編集・追記する</button>
+    {% post_question_modal user %}
+  {% endifequal %}
 </section>
-{% post_answer_modal request.user %}
+
+{% ifnotequal request.user question.user %}
+  {% post_answer_modal request.user %}
+{% endifnotequal %}
 {% if not request.user.username %}
   {% login_modal %}
 {% endif %}
@@ -95,8 +102,3 @@
 </section>
 
 {% endblock content %}
-
-{% block bottom_scripts %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="{% static 'commons/assets/js/animatedModal.min.js' %}"></script>
-{% endblock bottom_scripts %}

@@ -2,6 +2,9 @@
 {% load static %}
 {% load portfolio_extras %}
 
+{% block title %}
+{{ user.username }}のポートフォリオ | Famo
+{% endblock title %}
 {% block extend_head %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="{% static 'commons/assets/js/csrf.js' %}"></script>

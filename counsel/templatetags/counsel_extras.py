@@ -63,6 +63,10 @@ def post_question_modal(user):
     else:
         return {'user': False}
 
+@register.inclusion_tag('counsel/post_question_modal_scripts.html')
+def post_question_modal_scripts():
+    return {}
+
 @register.inclusion_tag('counsel/post_answer_modal.html')
 def post_answer_modal(user):
     if user.username:

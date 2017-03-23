@@ -10,9 +10,12 @@
 <html>
 	<head>
 		<title>{% block title %}Famo{% endblock title %}</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="{% static 'commons/assets/css/main.css' %}" />
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+		<meta name="description" content="{% block description %}育児や出産、夫婦関係など家族に関わるさまざまな記事を閲覧し、コメントできるコミュニティサイトです。{% endblock description %}"/>
+		<meta name="application-name" content="Famo"/>
+		<meta property="og:title" content="{% block ogtitle %}Famo{% endblock ogtitle %}"/>
+		<link rel="stylesheet" href="{% static 'commons/assets/css/main.css' %}"/>
 		{% block extend_head %}
 		{% endblock extend_head %}
 	</head>

@@ -42,7 +42,6 @@ def post_content(request, content_type):
     if not request.method == 'POST':
         raise Http404
     content = request.POST['content']
-    print(request.POST['anonymous'])
     try:
         anonymous = True if request.POST['anonymous'] == 'true' else False
     except:

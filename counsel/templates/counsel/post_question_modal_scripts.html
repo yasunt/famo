@@ -1,0 +1,23 @@
+<script>
+$(document).ready(function() {
+  $('#submit').click(function() {
+    $.ajax({
+      'url': "{% url 'counsel:post_question' %}",
+      'type': 'POST',
+      'data': {
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        'title': $('#title').val(),
+        'content': $('#content').val(),
+        'category': $('#category').val(),
+        'anonymous': $('#demo-human').is(':checked'),
+      },
+      'dataType': 'json',
+      'success': function(response) {
+        /*$('#close').click();
+        location.reload(); */
+        window.location.href = "{% url 'counsel:detail' 0}".replace('0', reponse.question_id);
+      }
+    });
+  });
+});
+</script>

@@ -1,3 +1,4 @@
+from urllib import parse
 from django.db import models
 from accounts.models import FamoUser
 
@@ -6,7 +7,11 @@ class Article(models.Model):
         return self.title
 
     def get_domain(self):
-        return self.url.split('/')[0]
+        o = parse.urlparse(self.url)
+        if o.netloc and o.scheme:
+            return parse.urlparse(self.url).netloc
+        else:
+            return self.url.split('/')[0]
 
     title = models.CharField(default='', max_length=100)
     url = models.URLField(default='')

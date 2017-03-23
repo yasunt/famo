@@ -1,17 +1,12 @@
 {% load counsel_extras %}
 
+<h3>{{ question.title }}</h3>
 {{ question.content }}
   <p>
     {% if not question.anonymous %}
-    from. <a href="{% url 'portfolio:user' %}">{{ question.user.username }}</a>
+    from. <a href="{% url 'portfolio:user' user %}">{{ question.user.username }}</a>
     {% else %}
     from. 匿名
     {% endif %}
     ({{ question.updated_date }} 投稿)
-  </p>
-  <p>
-    {% ifequal question.user user %}
-    <!-- Trigger the modal with a button -->
-    <button type="button" class="button special small" data-toggle="modal" data-target="#questionModal">質問を編集する</button>
-    {% endifequal %}
   </p>

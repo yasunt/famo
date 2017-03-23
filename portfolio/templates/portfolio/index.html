@@ -3,6 +3,9 @@
 {% load portfolio_extras %}
 {% load counsel_extras %}
 
+{% block title %}
+  マイページ | Famo
+{% endblock title %}
 {% block extend_head %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -66,6 +69,6 @@
     <li><a href="#" class="button">Next</a></li>
   </ul>
 
-  {% post_question_modal %}
+  {% post_question_modal request.user %}
 
 {% endblock content %}

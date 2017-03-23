@@ -1,6 +1,11 @@
 {% extends 'commons/base.html' %}
 {% load commons_extras %}
+{% load counsel_extras %}
 {% load static %}
+
+{% block title %}
+  トップページ | Famo
+{% endblock title %}
 
 {% block extend_header_list %}
 {% if request.user.username %}
@@ -14,16 +19,20 @@
 {% block content %}
   <section id="popular_article">
     <h2>注目記事</h2>
-    {% if popular_article.img_url %}<span class="image fit"><a href="{% url 'articles:detail' popular_article.id %}"><img src="{{ popular_article.img_url }}"></a></span>{% endif %}
     <p><a href="{% url 'articles:detail' popular_article.id %}"><h2>{{ popular_article.title }}</h2></a></p>
     <p>{{ popular_article.preface }}...</p>
-    <p>掲載元: {{ article.get_domain }}</p>
+    <p>掲載元: {{ popular_article.get_domain }}</p>
     <a href="{% url 'articles:detail' popular_article.id %}" class="button fit">記事に寄せられたコメントを読む</a>
   </section>
   <a href="{% url 'articles:popular' %}" class="button fit">その他の記事を読む</a>
 
-  <section id="popular_questions">
-    <h2>各カテゴリの注目トピック</h2>
+  <section id="popular_question">
+    <h2>注目のトピック</h2>
+    {% popular_question_node popular_question %}
+  </section>
+
+  <section id="categories">
+    <h2>カテゴリ別に記事とトピックを読む</h2>
     <div class="box alt">
       <div class="row 50% uniform">
 
