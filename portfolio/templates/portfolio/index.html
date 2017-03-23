@@ -1,5 +1,6 @@
 {% extends 'commons/base.html' %}
 {% load static %}
+{% load commons_extras %}
 {% load portfolio_extras %}
 {% load counsel_extras %}
 
@@ -7,39 +8,21 @@
   マイページ | Famo
 {% endblock title %}
 {% block extend_head %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="{% static 'commons/assets/js/csrf.js' %}"></script>
-<script>
-  $(document).ready(function() {
-    $('#submit').click(function() {
-      $.ajax({
-        'url': "{% url 'articles:comment' %}",
-        'type': 'POST',
-        'data': {
-          csrfmiddlewaretoken: '{{ csrf_token }}',
-          'article_id': '{{ article.id }}',
-          'content': $("#content").val(),
-        },
-        'dataType': 'json',
-        'success': function(response) {
-          $('#close').click();
-        }
-      });
-    });
-  });
-</script>
+  {% modal_libraries %}
+  {% post_question_modal_scripts %}
 {% endblock extend_head %}
-
 
 {% block content %}
 <section id="profile">
   <h4>マイページ</h4>
   <span class="image fit"><img src="{% static 'commons/images/pic07.jpg' %}"></span>
-  <strong>username: {{ user.username }}</strong>
-  <p><a href="{% url 'logout' %}" class="button">ログアウトする</a></p>
+  <p>ユーザー名: <strong>{{ user.username }}</strong></p>
+  <p>これまでに獲得したGood: <strong>{{ good_points }}</strong> 件</p>
+  <p>建てたトピック: <strong>{{ questions_count }}</strong> 件</p>
+  <p>コメント: <strong>{{ comments_count }}</strong> 件</p>
 </section>
+
+{% post_question_modal request.user %}
 
 <section id="questions">
   <h3>最近の質問</h3>
@@ -69,6 +52,5 @@
     <li><a href="#" class="button">Next</a></li>
   </ul>
 
-  {% post_question_modal request.user %}
-
+<p><a href="{% url 'logout' %}" class="button fit">ログアウトする</a></p>
 {% endblock content %}

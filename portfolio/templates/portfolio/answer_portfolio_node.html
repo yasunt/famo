@@ -1,7 +1,6 @@
-{% load portfolio_extras %}
+{% load commons_extras %}
 
 
-<p>{{ answer.content|cut_text:40 }}...</p>
+<p>{{ answer.content|cut_text:40 }}</p>
 <p>{{ answer.updated_date }}</p>
 <a href="{% url 'counsel:detail' answer.question.id %}" class="button small">トピック詳細ページへ</a>
-<a class="button small">回答を編集する</a>

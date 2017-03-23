@@ -9,7 +9,7 @@ from django.conf import settings
 
 def index(request):
     categories = [{'name': '育児', 'img_url': 'commons/images/baby.jpg', 'key': 'child'}, {'name': '受験', 'img_url': 'commons/images/study.jpg', 'key': 'study'},
-        {'name': '妊娠・出産', 'img_url': 'commons/images/pregnant.jpg', 'key': 'pregnant'}, {'name': '結婚・夫婦生活', 'img_url': 'commons/images/couple.jpg', 'key': 'couple'}
+        {'name': '妊娠・出産', 'img_url': 'commons/images/pregnant.jpg', 'key': 'pregnant'}, {'name': '結婚・夫婦生活', 'img_url': 'commons/images/couple02.jpg', 'key': 'couple'}
     ]
     keywords = ['引きこもり', '介護', '保育園', '病気', '主夫', '家事', '高齢出産']
     context = {'popular_article': Article.objects.order_by('-hits')[0], 'popular_question': Question.objects.order_by('-hits')[0], 'categories': categories, 'keywords': keywords}

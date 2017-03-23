@@ -64,15 +64,6 @@
 										<li><a href="{% url 'portfolio:index' %}">マイページ</a></li>
 										<li><a href="{% url 'articles:popular' %}">人気の記事</a></li>
 										<li><a href="{% url 'counsel:popular' %}">人気トピック</a></li>
-										<li><a href="">アンケート</a></li>
-										<li>
-											<span class="opener">カテゴリ</span>
-											<ul>
-												{% for category in 10|get_categories %}
-												<li><a href="{% url 'category:category' category %}">{{ category.name }}</a></li>
-												{% endfor %}
-											</ul>
-										</li>
 									</ul>
 								</nav>
 

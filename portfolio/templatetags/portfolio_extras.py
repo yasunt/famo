@@ -1,6 +1,8 @@
 from django import template
 from datetime import datetime
 from counsel.models import Answer, Question
+from articles.models import Comment
+from django.db.models import Count
 
 register = template.Library()
 
@@ -31,7 +33,7 @@ def count_new_answers(question):
     if not new_answers:
         return 0
     else:
-        return answers.count()
+        return new_answers.count()
 
 @register.inclusion_tag('portfolio/answer_portfolio_node.html')
 def answer_portfolio_node(answer):

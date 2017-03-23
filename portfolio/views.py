@@ -3,12 +3,18 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from accounts.models import FamoUser
-from counsel.models import Answer
+from articles.models import Comment
+from counsel.models import Answer, Question
+from django.db.models import Count
 import json
 
 @login_required
 def index(request):
-    context = {'user': request.user}
+    good_points = Answer.objects.filter(user=request.user).aggregate(Count('good_rators'))['good_rators__count'] + Comment.objects.filter(user=request.user).aggregate(Count('good_rators'))['good_rators__count']
+    questions_count = Question.objects.filter(user=request.user).count()
+    answers_count = Answer.objects.filter(user=request.user).count()
+    comments_count = Comment.objects.filter(user=request.user).count()
+    context = {'user': request.user, 'good_points': good_points, 'questions_count': questions_count, 'answers_count': answers_count, 'comments_count': comments_count}
     return render(request, 'portfolio/index.html', context)
 
 def user(request, username):
