@@ -17,6 +17,7 @@ def index(request):
     context = {'user': request.user, 'good_points': good_points, 'questions_count': questions_count, 'answers_count': answers_count, 'comments_count': comments_count}
     return render(request, 'portfolio/index.html', context)
 
+@login_required
 def user(request, username):
     user = get_object_or_404(FamoUser, username=username)
     context = {'user': user}
@@ -24,6 +25,8 @@ def user(request, username):
         context['following'] = True
     else:
         context['following'] = False
+    context['answers'] = Answer.objects.filter(user=user).exclude(anonymous=True)[:10]
+    context['questions'] =  Question.objects.filter(user=user).exclude(anonymous=True)[:10]
     return render(request, 'portfolio/user.html', context)
 
 @login_required

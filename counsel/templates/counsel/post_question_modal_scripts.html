@@ -13,9 +13,8 @@ $(document).ready(function() {
       },
       'dataType': 'json',
       'success': function(response) {
-        /*$('#close').click();
-        location.reload(); */
-        window.location.href = "{% url 'counsel:detail' 0}".replace('0', reponse.question_id);
+        ('#close').click();
+        location.reload();
       }
     });
   });

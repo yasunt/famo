@@ -3,7 +3,6 @@ from urllib import request, parse
 from bs4 import BeautifulSoup
 from readability import readability
 from django.conf import settings
-from articles.models import Article
 import time
 
 
@@ -55,7 +54,10 @@ class Croller(object):
     def feed(self):
         soup = self.get_soup()
         for title, link in self.yield_elements(soup):
-            preface, img_url = self.extractor.digest(request.urlopen(''.join([self.protocol, link])).read(), 200)
+            try:
+                preface, img_url = self.extractor.digest(request.urlopen(''.join([self.protocol, link])).read(), 200)
+            except:
+                continue
             if img_url:
                 if not parse.urlparse(img_url).scheme:
                     img_url = ''.join([self.domain, img_url])
@@ -83,6 +85,11 @@ class NikkeiDualCroller(Croller):
         for article in article_elements:
             yield article.h1.contents[0], ''.join([self.domain, article.get('href')])
 
+class NikkeiDualCrollerb(NikkeiDualCroller):
+    def __init__(self):
+        super().__init__()
+        self.url = 'http://dual.nikkei.co.jp/list.aspx?mid=229'
+
 class KosodateHackCroller(Croller):
     def __init__(self):
         super().__init__()
@@ -98,14 +105,14 @@ class KosodateHackCroller(Croller):
         for title, link in zip(titles, links):
             yield title.string, link.get('href')
 
-class KosodateHackCroller_b(KosodateHackCroller):
+class KosodateHackCrollerb(KosodateHackCroller):
     def __init__(self):
         super().__init__()
         self.url = 'https://192abc.com/trying-to-conceive'
         self.domain = '192abc.com'
         self.protocol = ''
 
-class KosodateHackCroller_c(KosodateHackCroller):
+class KosodateHackCrollerc(KosodateHackCroller):
     def __init__(self):
         super().__init__()
         self.url = 'https://192abc.com/pregnancy'
@@ -116,30 +123,46 @@ class ConobieCroller(Croller):
     def __init__(self):
         super().__init__()
         self.url = 'https://conobie.jp/article/ranking/pregnancy'
-        sel.domain = 'https://conobie.jp/'
+        self.domain = 'https://conobie.jp/'
 
     def yield_elements(self, soup):
         pass
 
-def run_dayily_schedule(crollers=[KosodateHackCroller_c,]):
-    for croller in crollers:
-        croller = croller()
-        for title, url, preface, img_url in croller.feed():
-            if Article.objects.filter(url=url).exists():
-                continue
-            article = Article(title=title, url=url, preface=preface, img_url=img_url)
-            print(article)
-            article.save()
-            time.sleep(5)
+class AllAboutCroller(Croller):
+    def __init__(self):
+        super().__init__()
+        self.url = 'https://allabout.co.jp/gm/latest/1212/'
+        self.protocol = ''
+
+    def yield_elements(self, soup):
+        article_divisions = soup.find_all('li', class_='aa_media aa_media-l aa_media-reverse aa_media-border')
+        for article_division in article_divisions:
+            title = article_division.find('h2', class_='aa_media-title-l text-bold link-blue').string
+            link = article_division.find('a', class_='block-link').get('href')
+            yield title, link
+
+class AllAboutCrollerb(AllAboutCroller):
+    def __init__(self):
+        super().__init__()
+        self.url = 'https://allabout.co.jp/gm/latest/1215/'
+
+class AllAboutCrollerc(AllAboutCroller):
+    def __init__(self):
+        super().__init__()
+        self.url = 'https://allabout.co.jp/ch_pregnancy/latest/'
+
+
+CROLLERS = [AsahiCroller, NikkeiDualCroller, NikkeiDualCrollerb, KosodateHackCroller, KosodateHackCrollerb, KosodateHackCrollerc,
+    AllAboutCroller, AllAboutCrollerb, AllAboutCrollerc,
+]
 
 def test():
-    khc = KosodateHackCroller_b()
-    for i, e in enumerate(khc.feed()):
+    c = AllAboutCrollerb()
+    for i, e in enumerate(c.feed()):
         print(e)
-        if i > 5:
+        if i > 8:
             break
         time.sleep(5)
 
 if __name__ == '__main__':
     test()
-    # run_dayily_schedule()

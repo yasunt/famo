@@ -41,7 +41,7 @@
 
 <section id="questions">
   <h1>過去に作成したトピック</h1>
-  {% for question in user|latest_questions:5 %}
+  {% for question in questions %}
     <strong><a href="{% url 'counsel:detail' question.id %}">{{ question.title }}</a></strong><br>
     <p>{{ question.content|cut_text:50 }}...</p>
     {% if forloop.counter > 5 %}
@@ -53,7 +53,7 @@
 
 <section id="answers">
   <h1>過去の回答</h1>
-  {% for answer in user|latest_answers:6 %}
+  {% for answer in answers %}
   <section id="answer{{ answer.id }}">
     <h4><strong><a href="{% url 'counsel:detail' answer.question.id %}">トピック: {{ answer.question.title }}への回答 - {{ answer.title }}</a></strong></h4>
     <p>{{ answer.content|cut_text:30 }}...</p>

@@ -8,7 +8,7 @@ from counsel.models import Question, Answer, Category
 from accounts.models import FamoUser
 
 def index(request):
-    questions = Question.objects.order_by('-hits')[:10]
+    questions = Question.objects.order_by('-hits')[:20]
     return render(request, 'counsel/index.html', {'questions': questions})
 
 @login_required

@@ -16,6 +16,16 @@
 		<meta name="application-name" content="Famo"/>
 		<meta property="og:title" content="{% block ogtitle %}Famo{% endblock ogtitle %}"/>
 		<link rel="stylesheet" href="{% static 'commons/assets/css/main.css' %}"/>
+		<script>
+  		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  		ga('create', 'UA-96168007-1', 'auto');
+  		ga('send', 'pageview');
+
+</script>
 		{% block extend_head %}
 		{% endblock extend_head %}
 	</head>
@@ -63,7 +73,7 @@
 										<li><a href="{% url 'top:index' %}">トップページ</a></li>
 										<li><a href="{% url 'portfolio:index' %}">マイページ</a></li>
 										<li><a href="{% url 'articles:popular' %}">人気の記事</a></li>
-										<li><a href="{% url 'counsel:popular' %}">人気トピック</a></li>
+										<li><a href="{% url 'counsel:index' %}">人気トピック</a></li>
 									</ul>
 								</nav>
 

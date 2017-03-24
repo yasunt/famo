@@ -26,11 +26,6 @@
   </section>
   <a href="{% url 'articles:popular' %}" class="button fit">その他の記事を読む</a>
 
-  <section id="popular_question">
-    <h2>注目のトピック</h2>
-    {% popular_question_node popular_question %}
-  </section>
-
   <section id="categories">
     <h2>カテゴリ別に記事とトピックを読む</h2>
     <div class="box alt">
@@ -39,8 +34,8 @@
       {% for category in categories %}
       <div class="6u">
         <span class="image fit">
-          <a href="{% url 'category:category' category.key %}"><img src="{% static category.img_url %}"></a>
-          <a href="{% url 'category:category' category.key %}">{{ category.name }}</a>
+          <a href="{% url 'category:category' category.name %}"><img src="{% static category.img_url %}"></a>
+          <a href="{% url 'category:category' category.name %}">{{ category.name }}</a>
         </span>
       </div>
       {% endfor %}
@@ -48,14 +43,22 @@
     </div>
     <a href="{% url 'counsel:popular' %}" class="button fit">その他のトピックを読む</a>
   </section>
+
+  <section id="popular_question">
+    <h2>注目のトピック</h2>
+    {% popular_question_node popular_question %}
+  </section>
+
   <section id="keywords">
     <h2>注目のキーワード</h2>
     {% for keyword in keywords %}
     <a href="{% url 'category:category' keyword %}" class="button small{% if forloop.counter|divisibleby:2 %} special{% endif %}">{{ keyword }}</a>
     {% endfor %}
   </section>
+  <!--
   <section id="questionnaire">
     <h2>現在行われているアンケート</h2>
     <a href="#" class="button fit">その他のアンケートをみる</a>
   </section>
+  -->
 {% endblock content %}
