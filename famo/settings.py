@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'famo',
+    'registration',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +133,14 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# setting in registration
+ACCOUNT_ACTIVATION_DAYS = 2
+
+# メール確認用
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
 
 
 # Static files (CSS, JavaScript, Images)
