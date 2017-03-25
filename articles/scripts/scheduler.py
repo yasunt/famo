@@ -16,5 +16,7 @@ def run_dayily_schedule(crollers):
             time.sleep(10)
     print('{0} articles registered.'.format(count))
 
+run_dayily_schedule(feed.CROLLERS)
+
 if __name__ == '__main__':
     run_dayily_schedule(feed.CROLLERS)

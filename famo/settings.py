@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'famo',
     'registration',
+    'registration_defaults',
 ]
 
 MIDDLEWARE = [
@@ -135,12 +136,15 @@ USE_L10N = True
 USE_TZ = True
 
 # setting in registration
-ACCOUNT_ACTIVATION_DAYS = 2
+ACCOUNT_ACTIVATION_DAYS = 1
 
-# メール確認用
-EMAIL_USE_TLS = False
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
+# mail confirm test.
+EMAIL_SUBJECT_PREFIX = '[Famo]'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'famoo.club@gmail.com'
+EMAIL_HOST_PASSWORD = 'g8033011'
+EMAIL_PORT = 587
 
 
 # Static files (CSS, JavaScript, Images)

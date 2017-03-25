@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from registration.backends.hmac.views import RegistrationView
+from accounts.forms import FamoUserForm
 
 urlpatterns = [
     url('^', include('top.urls')),
@@ -23,8 +25,9 @@ urlpatterns = [
     url(r'^counsel/', include('counsel.urls')),
     url(r'^portfolio/', include('portfolio.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/', include('accounts.urls')),
-    url(r'^registration/', include('registration.backends.default.urls')),
+    # url(r'^accounts/', include('accounts.urls')),
     url(r'^search/', include('search.urls')),
     url(r'^', include('django.contrib.auth.urls')),
+    url(r'^accounts/register/$', RegistrationView.as_view(form_class=FamoUserForm), name='registration_register',),
+    url(r'^accounts/', include('registration.backends.hmac.urls')),
 ]

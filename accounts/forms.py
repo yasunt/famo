@@ -1,8 +1,9 @@
 import re
 from django.core.exceptions import ObjectDoesNotExist
 from django import forms
+from registration.forms import RegistrationForm
 from accounts.models import FamoUser
-
+"""
 class RegistrationForm(forms.Form):
     def clean_username(self):
         username = self.cleaned_data['username']
@@ -28,3 +29,8 @@ class RegistrationForm(forms.Form):
                           widget=forms.PasswordInput())
     password2 = forms.CharField(label='パスワード（確認用）',
                         widget=forms.PasswordInput())
+"""
+class FamoUserForm(RegistrationForm):
+    class Meta:
+        model = FamoUser
+        fields  = RegistrationForm.Meta.fields
