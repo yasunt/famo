@@ -13,7 +13,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <a href="{% url 'top:signup' %}" class="button fit" id="signup">新規会員登録</a>
+        <a href="{% url 'registration_register' %}?next={{ request.path }}" class="button fit" id="signup">新規会員登録</a>
       </div>
     </div>
   </div>

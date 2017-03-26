@@ -44,8 +44,8 @@ def get_categories(num=30):
     return Category.objects.order_by('name')[:num]
 
 @register.inclusion_tag('commons/login_modal.html')
-def login_modal():
-    return {'login_form': AuthenticationForm()}
+def login_modal(request):
+    return {'login_form': AuthenticationForm(), 'request': request}
 
 @register.inclusion_tag('commons/search_form.html')
 def search_form():

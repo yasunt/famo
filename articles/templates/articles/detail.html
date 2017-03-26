@@ -87,7 +87,7 @@
 {% if request.user.username %}
   {% comment_modal %}
 {% else %}
-  {% login_modal %}
+  {% login_modal request %}
 {% endif %}
 <button type="button" class="fit" data-toggle="modal" data-target="#{% if request.user.username %}CommentModal{% else %}loginModal{% endif %}" id="command">コメントする</button>
 

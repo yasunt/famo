@@ -89,7 +89,7 @@
   {% post_answer_modal request.user %}
 {% endifnotequal %}
 {% if not request.user.username %}
-  {% login_modal %}
+  {% login_modal request %}
 {% endif %}
 
 <section id="answers">

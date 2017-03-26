@@ -10,5 +10,5 @@
   <h5>回答</h5>
   <p><strong>{{ top_comment.content|cut_text:50 }}</strong></br>from. {% if top_comment.user.anonymous %}匿名{% else %}{{ top_comment.user }}{% endif %}</p>
 </section>
-<button onclick=location.href="{% url 'counsel:detail' question.id %}" class="button fit">詳細へ</button>
 {% endif %}
+<button onclick=location.href="{% url 'counsel:detail' question.id %}" class="button fit">詳細へ</button>
