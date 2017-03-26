@@ -25,6 +25,7 @@ SECRET_KEY = '$lr%s*lwv3re#pejv4r249zf&#gup$30%#*9i0^o4aa6l+g2fl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
+SECURE_SSL_REDIRECT = True
 
 if gethostname() == 'yasu-Vostro-3458':
     DEBUG = True
