@@ -1,0 +1,9 @@
+{% extends "registration/registration_base.html" %}
+{% load i18n %}
+{% block title %}アカウント登録が完了いたしました | Famo{% endblock %}
+{% block content %}
+{% url 'auth_login' as auth_login_url %}
+{% blocktrans %}
+アカウント登録が完了いたしました。  <a href='{{ auth_login_url }}'>ログイン</a>
+{% endblocktrans %}
+{% endblock %}

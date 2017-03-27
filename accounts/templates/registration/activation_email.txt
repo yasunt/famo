@@ -1,0 +1,14 @@
+{% load i18n %}
+{% url 'registration_activate' activation_key as activation_key_url%}
+{% blocktrans with sitename=site.name siteurl=site.domain %}
+当メールに心当たりがない場合は、破棄して頂きますようお願いいたします。
+
+
+以下のリンクをクリックすることにより、アカウント登録が完了いたします。
+
+http://{{ siteurl }}{{ activation_key_url }}
+
+なお、当メールの到着後24時間が経過いたしますとリンクが無効化されますので、その場合はお手数ですが再度登録手続きをお願いいたします。
+
+{{ sitename }} 運営
+{% endblocktrans %}
