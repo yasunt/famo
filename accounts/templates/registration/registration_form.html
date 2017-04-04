@@ -2,6 +2,9 @@
 {% load i18n %}
 {% block title %}{% trans "Register for an account" %}{% endblock %}
 {% block content %}
+<br>
+<button class="special small" onclick=location.href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Twitterアカウントで登録</button>
+<hr>
 <table>
     <form method='post' action=''>{% csrf_token %}
         {{ form }}

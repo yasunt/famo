@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'^', include('django.contrib.auth.urls')),
     url(r'^accounts/register/$', RegistrationView.as_view(form_class=FamoUserForm), name='registration_register',),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
+    url('', include('social.apps.django_app.urls', namespace='social')),
 ]
